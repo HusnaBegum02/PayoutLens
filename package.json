@@ -1,0 +1,9 @@
+{
+  "name": "payoutlens-local",
+  "version": "1.0.0",
+  "private": true,
+  "description": "PayoutLens four-screen local prototype",
+  "scripts": {
+    "start": "node server.js"
+  }
+}

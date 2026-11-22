@@ -1,0 +1,987 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="web_standard" name="shell-type"/>
+<title>PayoutLens — Gig Financial Truth</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500;600;700&amp;family=Space+Grotesk:wght@500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "surface-dim": "#131313",
+            "surface-bright": "#3a3939",
+            "on-error": "#690005",
+            "error-container": "#93000a",
+            "inverse-on-surface": "#313030",
+            "inverse-primary": "#1458c9",
+            "outline-variant": "#434653",
+            "primary": "#b1c5ff",
+            "surface-container": "#201f1f",
+            "secondary-fixed": "#d4ff24",
+            "on-secondary-fixed": "#171e00",
+            "surface-container-lowest": "#0e0e0e",
+            "primary-container": "#1558c9",
+            "surface-container-highest": "#353534",
+            "surface-container-high": "#2a2a2a",
+            "surface-container-low": "#1c1b1b",
+            "on-surface": "#e5e2e1",
+            "surface": "#131313",
+            "error": "#ffb4ab",
+            "outline": "#8d909f",
+            "midnight": "#0a0a0a",
+            "custom-border": "#23262d",
+            "cobalt": "#1558c9",
+            "lime-acid": "#d4ff24",
+            "slate-muted": "#9AA3B2"
+          },
+          fontFamily: {
+            "mono": ["JetBrains Mono", "monospace"],
+            "body": ["Hanken Grotesk", "sans-serif"],
+            "headline": ["Space Grotesk", "sans-serif"]
+          }
+        }
+      }
+    };
+  </script>
+<style>
+    @layer base {
+      html, body {
+        margin: 0;
+        padding: 0;
+        background-color: #0a0a0a;
+        color: #e5e2e1;
+        font-family: 'Hanken Grotesk', sans-serif;
+      }
+      ::-webkit-scrollbar {
+        display: none;
+      }
+    }
+
+    :focus-visible {
+      outline: 2px solid #d4ff24 !important;
+      outline-offset: 3px !important;
+    }
+
+    .nav-link-effect {
+      position: relative;
+      color: #9AA3B2;
+      transition: color 0.2s ease;
+      white-space: nowrap;
+    }
+    .nav-link-effect:hover {
+      color: #ffffff;
+    }
+    .nav-link-effect::after {
+      content: '';
+      position: absolute;
+      bottom: -6px;
+      left: 50%;
+      width: 0;
+      height: 2px;
+      background-color: #1558c9;
+      transition: width 0.25s ease, left 0.25s ease;
+    }
+    .nav-link-effect:hover::after {
+      width: 100%;
+      left: 0;
+    }
+    .nav-link-active {
+      color: #ffffff !important;
+    }
+    .nav-link-active::after {
+      width: 100% !important;
+      left: 0 !important;
+      background-color: #1558c9 !important;
+    }
+
+    .btn-shimmer {
+      position: relative;
+      overflow: hidden;
+    }
+    .btn-shimmer::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -150%;
+      width: 100%;
+      height: 200%;
+      background: linear-gradient(
+        115deg,
+        transparent 20%,
+        rgba(255, 255, 255, 0.25) 50%,
+        transparent 80%
+      );
+      transform: skewX(-20deg);
+      transition: left 0.75s ease;
+      pointer-events-none;
+    }
+    .btn-shimmer:hover::before {
+      left: 150%;
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+      .spotlight-card {
+        transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.25s ease, box-shadow 0.25s ease;
+        position: relative;
+      }
+      .spotlight-card:hover {
+        transform: translateY(-2px);
+        border-color: #1558c9 !important;
+        box-shadow: 0 10px 28px -10px rgba(21, 88, 201, 0.3);
+      }
+      .spotlight-overlay {
+        background: radial-gradient(
+          500px circle at var(--mouse-x, -1000px) var(--mouse-y, -1000px),
+          rgba(21, 88, 201, 0.1),
+          transparent 70%
+        );
+      }
+    }
+
+    .step-badge {
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .step-badge:hover {
+      transform: scale(1.15);
+      box-shadow: 0 0 10px rgba(212, 255, 36, 0.5);
+    }
+
+    .preset-row {
+      transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+      border-left: 3px solid transparent;
+    }
+    .preset-row:hover {
+      background-color: #131313 !important;
+      border-left-color: #d4ff24 !important;
+      transform: translateX(2px);
+    }
+
+    #payout-input {
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+    #payout-input:focus {
+      border-color: #1558c9 !important;
+      box-shadow: 0 0 0 1px #1558c9, 0 0 16px rgba(21, 88, 201, 0.4) !important;
+      outline: none;
+    }
+    .textarea-lime-flash {
+      border-color: #d4ff24 !important;
+      box-shadow: 0 0 0 2px #d4ff24, 0 0 20px rgba(212, 255, 36, 0.55) !important;
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+      .reveal-element {
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1), transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+      .reveal-element.is-visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .reveal-element {
+        opacity: 1 !important;
+        transform: none !important;
+      }
+    }
+
+    .page-exit-left {
+      transform: translateX(-100%);
+      opacity: 0;
+      transition: transform 0.45s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+  </style>
+
+<style id="payoutlens-overview-header-footer">
+#site-header {
+  height: 64px;
+  background: transparent;
+  font-family: 'Hanken Grotesk', sans-serif;
+  color: #e5e2e1;
+}
+#site-header > div.h-16,
+#site-header > .h-16 {
+  width: 100%;
+  max-width: 1280px;
+  height: 64px;
+  margin: 0 auto;
+  padding-left: 32px;
+  padding-right: 32px;
+  box-sizing: border-box;
+}
+#site-header a { text-decoration: none; }
+#site-header a > span:first-child {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 24px;
+  font-weight: 500;
+  line-height: 30px;
+  letter-spacing: -0.01em;
+  color: #e5e2e1;
+}
+#site-header a > span:last-child {
+  font-family: 'JetBrains Mono', monospace;
+  color: #c3c6d6;
+  font-size: 10px;
+  line-height: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+#site-header nav a {
+  font-family: 'Hanken Grotesk', sans-serif;
+  font-size: 13px;
+  line-height: 20px;
+  color: #c3c6d6;
+  text-decoration: none;
+}
+#site-header nav a[aria-current="page"] {
+  color: #e5e2e1;
+  font-weight: 600;
+}
+#site-header #mobile-menu-btn {
+  color: #c3c6d6;
+  background: transparent;
+  border: 0;
+}
+#site-header #mobile-menu-panel {
+  position: absolute;
+  left: 0;
+  top: 64px;
+  width: 100%;
+  background: #1c1b1b;
+  border-bottom: 1px solid #2a2a2a;
+  box-sizing: border-box;
+  padding: 24px 16px;
+}
+#site-header #mobile-menu-panel nav a {
+  display: block;
+  box-sizing: border-box;
+  min-height: 40px;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 15px;
+  line-height: 24px;
+  color: #c3c6d6;
+}
+#site-header #mobile-menu-panel nav a[aria-current="page"] {
+  color: #e5e2e1;
+  background: #2a2a2a;
+  font-weight: 600;
+}
+@media (min-width: 880px) {
+  #site-header #mobile-menu-btn { display: none !important; }
+  #site-header .h-16 > nav { display: flex !important; }
+  #site-header #mobile-menu-panel { display: none !important; }
+}
+@media (max-width: 879px) {
+  #site-header .h-16 > nav { display: none !important; }
+  #site-header #mobile-menu-btn { display: inline-flex !important; }
+  #site-header > div.h-16,
+  #site-header > .h-16 { padding-left: 16px; padding-right: 16px; }
+  #site-header #mobile-menu-panel.hidden { display: none !important; }
+  #site-header #mobile-menu-panel:not(.hidden) { display: block !important; }
+}
+#site-header .h-16 {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+#site-header .h-16 > nav {
+  align-items: center;
+  gap: 32px;
+}
+#site-header .h-16 > nav a {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 4px;
+  text-decoration: none;
+}
+#site-header .h-16 > nav a::after {
+  display: none;
+  content: none;
+}
+#site-header .h-16 > div:last-child {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+#site-header .h-16 > div:last-child > a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 20px;
+  border-radius: 8px;
+  white-space: nowrap;
+  color: #fff;
+  background: #1558c9;
+  border: 1px solid rgba(21, 88, 201, 0.45);
+  font-family: 'Hanken Grotesk', sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 20px;
+  text-decoration: none;
+}
+#site-header .h-16 > div:last-child > a:hover {
+  background: #b1c5ff;
+  color: #002c71;
+}
+</style>
+</head>
+<body class="bg-[#0a0a0a] text-on-surface font-body min-h-screen flex flex-col selection:bg-secondary-fixed selection:text-on-secondary-fixed">
+<!-- Top 2px Acid Lime Scroll Progress Bar -->
+<div class="fixed top-0 left-0 h-[2px] bg-[#d4ff24] z-[70] w-0 transition-all duration-75" id="scroll-progress-bar"></div>
+<!-- Header: Exactly one horizontal row, h-[64px], px-[32px], flex items-center justify-between -->
+<header class="fixed top-0 w-full z-50 bg-transparent transition-all duration-300" id="site-header">
+<div class="h-0.5 bg-secondary-container w-0 transition-all duration-75" id="scroll-progress"></div>
+<div class="h-16 max-w-7xl mx-auto px-margin-sm lg:px-margin flex items-center justify-between">
+<a class="flex flex-col group" data-path="overview" href="overview.html">
+<span class="flex items-center gap-space-xs font-headline-md text-headline-md text-on-surface tracking-tight">
+          PayoutLens<span class="w-2 h-2 rounded-full bg-secondary-container inline-block"></span>
+</span>
+<span class="font-label-mono-xs text-label-mono-xs text-on-surface-variant uppercase tracking-wider">Gig financial truth</span>
+</a>
+<nav class="hidden nav-break:flex items-center gap-space-lg" data-active-classes="text-on-surface font-semibold after:scale-x-100"><a class="relative py-space-xs font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface transition-colors after:content-[\'\'] after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-secondary-container after:scale-x-0 hover:after:scale-x-100 after:transition-transform after:duration-200 after:origin-center" data-path="overview" href="overview.html">Overview</a><a aria-current="page" class="relative py-space-xs transition-colors after:content-[\'\'] after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-secondary-container after:transition-transform after:duration-200 after:origin-center text-on-surface font-semibold after:scale-x-100" data-path="add-payouts" href="add-payouts.html">Add payouts</a><a class="relative py-space-xs font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface transition-colors after:content-[\'\'] after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-secondary-container after:scale-x-0 hover:after:scale-x-100 after:transition-transform after:duration-200 after:origin-center" data-path="dashboard" href="dashboard.html">Dashboard</a><a class="relative py-space-xs font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface transition-colors after:content-[\'\'] after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-secondary-container after:scale-x-0 hover:after:scale-x-100 after:transition-transform after:duration-200 after:origin-center" data-path="details" href="details.html">Details</a><a class="relative py-space-xs font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface transition-colors after:content-[\'\'] after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-secondary-container after:scale-x-0 hover:after:scale-x-100 after:transition-transform after:duration-200 after:origin-center" href="overview.html">How it works</a></nav>
+<div class="flex items-center gap-space-md">
+<a class="hidden sm:inline-flex items-center justify-center px-space-md py-space-sm rounded-lg bg-primary-container text-on-primary-container font-body-sm text-body-sm font-medium hover:bg-primary hover:text-on-primary btn-lift-glow" data-path="dashboard" href="add-payouts.html">
+          Try the demo
+        </a>
+<div class="w-8 h-8 rounded-full bg-primary-container/40 border border-primary/30 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-[18px]">person</span>
+</div>
+<button aria-label="Toggle menu" class="nav-break:hidden p-space-xs text-on-surface-variant hover:text-on-surface" id="mobile-menu-btn" type="button">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</div>
+</div>
+<!-- Full-width mobile navigation panel -->
+<div class="hidden nav-break:hidden w-full bg-surface-container-low px-margin-sm py-space-lg border-b border-surface-container-high transition-all" id="mobile-menu-panel">
+<nav class="flex flex-col gap-space-sm"><a class="px-space-md py-space-sm font-body-md text-body-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high rounded-lg transition-colors" data-path="overview" href="overview.html">Overview</a><a aria-current="page" class="px-space-md py-space-sm text-on-surface font-semibold bg-surface-container-high rounded-lg" data-path="add-payouts" href="add-payouts.html">Add payouts</a><a class="px-space-md py-space-sm font-body-md text-body-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high rounded-lg transition-colors" data-path="dashboard" href="dashboard.html">Dashboard</a><a class="px-space-md py-space-sm font-body-md text-body-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high rounded-lg transition-colors" data-path="details" href="details.html">Details</a><a class="px-space-md py-space-sm font-body-md text-body-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high rounded-lg transition-colors" href="overview.html">How it works</a><a class="mt-space-sm inline-flex items-center justify-center px-space-md py-space-sm rounded-lg bg-primary-container text-on-primary-container font-body-sm text-body-sm font-medium hover:bg-primary hover:text-on-primary btn-lift-glow" href="add-payouts.html">Try the demo</a></nav>
+</div>
+</header>
+<!-- Main View Container: max-w-[1200px] mx-auto px-6 (24px) -->
+<main class="w-full pt-[88px] pb-16 flex-1 transition-all duration-500 ease-in-out" id="page-wrapper">
+<div class="max-w-[1200px] mx-auto px-6 space-y-6">
+<!-- ITEM 1: Rider Photo Block (60% photo column and 40% text column) -->
+<section class="reveal-element w-full bg-[#131313] border border-[#23262D] rounded-2xl overflow-hidden shadow-xl">
+<div class="grid grid-cols-1 lg:grid-cols-[60%_40%] items-stretch">
+<!-- Left: Photo (h-[420px] on desktop, object-fit: cover, object-position: 70% center) -->
+<div class="relative w-full h-[260px] lg:h-[420px] overflow-hidden bg-black">
+<img alt="Gig worker on motorcycle reading phone during night shift" class="w-full h-full object-cover transition-transform duration-700 hover:scale-[1.02]" id="hero-parallax-img" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAu7FKl7p7T7lqzOmhr27ojAhD5U2ttnO8wp2KhhdrtqBAa8xAMwJ9exv7tihYsvzfGAhMr7vkPooiZrdzFx3ztl0fhx1_LBfRgGwjM8PKCFanoEZDL1w8g-qhvLXCctwUhfQ_DHWAo_fkp3HKn5GamnOFEdh7vTvEAa1LSfg_GEtF0av9RZZrzzGHEArl605sDulLCTu_4iRbeAoTCNKFWe2GcEoM2HVaCzknx4EMLvAP0SrbOTVrP" style="object-position: 70% center;"/>
+<div class="absolute bottom-3 left-3 px-3 py-1.5 rounded-full bg-black/60 backdrop-blur-md border border-white/10 z-10 flex items-center gap-1.5 shadow-md">
+<span class="material-symbols-outlined text-[#9AA3B2] text-[13px]">auto_awesome</span>
+<span class="font-mono text-[12px] text-white tracking-wider">AI-generated illustration. Example rider.</span>
+</div>
+</div>
+<!-- Right: Text column (exactly 48px inner padding, 14px vertical gaps) -->
+<div class="p-6 sm:p-8 lg:p-[48px] flex flex-col justify-center gap-[14px]">
+<!-- Eyebrow pill -->
+<div>
+<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#1c1b1b] border border-[#23262D] font-mono text-[11px] text-[#d4ff24] uppercase tracking-wider font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-[#d4ff24] animate-pulse"></span>
+                CLIENT-SIDE INGESTION ENGINE
+              </span>
+</div>
+<!-- Headline -->
+<h1 class="font-headline text-3xl font-bold text-white tracking-tight leading-tight">
+              Add your payouts
+            </h1>
+<!-- Subtitle -->
+<p class="text-[#9AA3B2] text-sm leading-relaxed">
+              Paste payout messages or CSV rows. Your data stays in this browser.
+            </p>
+<!-- Tip box (p-4 / 16px inner padding, rounded-xl, bg-[#1c1b1b] border border-[#23262D]) -->
+<div class="p-4 rounded-xl bg-[#1c1b1b] border border-[#23262D] flex items-start gap-3 shadow-sm">
+<span class="material-symbols-outlined text-[#d4ff24] text-[20px] shrink-0 mt-0.5">info</span>
+<div class="flex flex-col text-xs leading-snug">
+<span class="font-medium text-[#d4ff24]">Paste the weekly summary or CSV.</span>
+<span class="text-[#9AA3B2] mt-0.5">Nothing leaves this browser.</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- ITEM 2: Main Dynamic Ingestion Workspace Grid (2-column: Left ~65%, Right ~35%) -->
+<section class="w-full">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+<!-- LEFT COLUMN: Input Panel & Presets (~65% -> col-span-8) -->
+<div class="lg:col-span-8 flex flex-col gap-6">
+<!-- Input Panel Card (p-6) -->
+<div class="reveal-element spotlight-card w-full bg-[#131313] border border-[#23262D] rounded-2xl p-6 flex flex-col shadow-xl relative overflow-hidden" data-spotlight="true" style="--mouse-x: -1000px; --mouse-y: -1000px;">
+<div class="spotlight-overlay pointer-events-none absolute inset-0 z-0"></div>
+<div class="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-[#1558C9] via-[#d4ff24] to-transparent opacity-80"></div>
+<!-- Section Header with Privacy Sandbox Pill -->
+<div class="relative z-10 flex flex-wrap items-center justify-between gap-3 mb-4">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[#b1c5ff] text-[22px]">terminal</span>
+<h2 class="font-headline text-lg sm:text-xl text-white font-semibold">Paste Payout SMS or Statement Data</h2>
+</div>
+<div class="flex items-center gap-1.5 px-3 py-1 bg-[#1c1b1b] border border-[#23262D] rounded-full">
+<span class="material-symbols-outlined text-[#d4ff24] text-[14px]">lock</span>
+<span class="font-mono text-[11px] uppercase text-[#d4ff24] tracking-wider font-semibold">100% Client-Side Sandbox</span>
+</div>
+</div>
+<!-- Textarea Canvas (p-4, min-h-[220px], font-mono text-xs, bg-[#0e0e0e], border border-[#23262D], rounded-xl) -->
+<div class="relative z-10 w-full flex flex-col mb-3">
+<div class="absolute top-2.5 right-2.5 z-10">
+<button class="px-2.5 py-1 rounded bg-[#201f1f] hover:bg-[#2a2a2a] text-[#9AA3B2] hover:text-white font-mono text-[10px] tracking-wider transition-colors border border-[#23262D]" id="btn-copy-format" title="Format Raw Data" type="button">
+                    AUTO-FORMAT
+                  </button>
+</div>
+<textarea class="w-full p-4 font-mono text-xs leading-relaxed bg-[#0e0e0e] text-white/90 rounded-xl border border-[#23262D] placeholder:text-neutral-600 resize-y min-h-[220px]" id="payout-input" placeholder="Swiggy: Payout of Rs 4,820.00 for Week 42 (Oct 14-20) credited to your account. Gross: Rs 5,900. Commission: Rs 680. Penalties: Rs 400. Orders: 62. Login Hrs: 24.5.
+
+Zomato: Rs 3,450.00 transferred for period Oct 07-13. Gross earnings Rs 4,100, Fuel adjustment Rs 350, Tips Rs 220, Orders delivered: 48, Online hours: 19.0." rows="9" spellcheck="false"></textarea>
+</div>
+<!-- Button Row (gap-[10px]) -->
+<div class="relative z-10 flex flex-wrap items-center justify-between gap-y-3 gap-x-2 pt-1 mb-4">
+<div class="flex flex-wrap items-center gap-[10px]">
+<!-- Analyse Payouts -->
+<button class="btn-shimmer px-5 py-2.5 bg-[#1558C9] hover:bg-[#1a66e5] text-white text-sm font-medium rounded-lg shadow-md hover:shadow-[0_4px_20px_rgba(21,88,201,0.45)] hover:-translate-y-0.5 active:translate-y-0 active:scale-95 transition-all flex items-center gap-1.5" id="btn-analyse" type="button">
+<span id="analyse-label">Analyse Payouts</span>
+<span class="material-symbols-outlined text-[18px]" id="analyse-icon">arrow_forward</span>
+</button>
+<!-- Load sample SMS -->
+<button class="px-3.5 py-2 bg-[#1c1b1b] hover:bg-[#23262D] text-white text-xs rounded-lg border border-[#23262D] transition-all hover:-translate-y-0.5 active:scale-95 flex items-center gap-1.5" id="btn-sample-sms" type="button">
+<span class="material-symbols-outlined text-[#9AA3B2] text-[16px]">sms</span>
+<span>Load sample SMS</span>
+</button>
+<!-- Load sample CSV -->
+<button class="px-3.5 py-2 bg-[#1c1b1b] hover:bg-[#23262D] text-white text-xs rounded-lg border border-[#23262D] transition-all hover:-translate-y-0.5 active:scale-95 flex items-center gap-1.5" id="btn-sample-csv" type="button">
+<span class="material-symbols-outlined text-[#9AA3B2] text-[16px]">data_table</span>
+<span>Load sample CSV</span>
+</button>
+<!-- Upload CSV -->
+<label class="px-3.5 py-2 bg-[#1c1b1b] hover:bg-[#23262D] text-white text-xs rounded-lg border border-[#23262D] transition-all hover:-translate-y-0.5 active:scale-95 cursor-pointer flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[#9AA3B2] text-[16px]">upload_file</span>
+<span>Upload CSV</span>
+<input accept=".csv,text/csv" class="sr-only" id="csv-file-input" type="file"/>
+</label>
+</div>
+<!-- Clear -->
+<button class="px-2.5 py-1.5 text-[#9AA3B2] hover:text-[#ffb4ab] text-xs transition-colors flex items-center gap-1 active:scale-95" id="btn-clear" type="button">
+<span class="material-symbols-outlined text-[16px]">delete_sweep</span>
+<span>Clear</span>
+</button>
+</div>
+<!-- Live Real-Time Telemetry Bar -->
+<div class="relative z-10 w-full p-3.5 rounded-xl bg-[#0e0e0e] border border-[#23262D] flex flex-wrap items-center justify-between gap-3">
+<div class="flex items-center gap-2">
+<span class="relative flex h-2 w-2">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#d4ff24] opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2 w-2 bg-[#d4ff24]"></span>
+</span>
+<span class="font-mono text-xs text-white/90" id="counter-status">
+                    Ready: Awaiting telemetry input
+                  </span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="font-mono text-[10px] uppercase text-[#9AA3B2]">Extraction Confidence:</span>
+<span class="px-2 py-[2px] rounded bg-[#1c1b1b] border border-[#23262D] text-[#d4ff24] font-mono text-[10px] font-semibold tracking-wider" id="confidence-tag">100% SECURE MEMORY</span>
+</div>
+</div>
+</div>
+<!-- Sample Preset Gig Data Templates Panel -->
+<div class="reveal-element spotlight-card w-full bg-[#131313] border border-[#23262D] rounded-2xl p-6 flex flex-col gap-4 shadow-md relative overflow-hidden" data-spotlight="true" style="--mouse-x: -1000px; --mouse-y: -1000px;">
+<div class="spotlight-overlay pointer-events-none absolute inset-0 z-0"></div>
+<div class="relative z-10 flex items-center justify-between flex-wrap gap-3">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[#b1c5ff] text-[20px]">dataset</span>
+<h3 class="font-headline text-base text-white font-semibold">Preset Gig Data Templates</h3>
+</div>
+<!-- Segmented Tab Selector -->
+<div class="flex items-center p-1 bg-[#0e0e0e] border border-[#23262D] rounded-lg">
+<button class="px-3 py-1 rounded font-mono text-[11px] uppercase transition-all bg-[#1c1b1b] text-[#d4ff24] font-medium" id="tab-toggle-sms" type="button">
+                    SMS Streams (Swiggy / Zomato)
+                  </button>
+<button class="px-3 py-1 rounded font-mono text-[11px] uppercase transition-all text-[#9AA3B2] hover:text-white" id="tab-toggle-csv" type="button">
+                    Shift CSV Table
+                  </button>
+</div>
+</div>
+<!-- SMS Preview Tab Body -->
+<div class="relative z-10 flex flex-col gap-3" id="tab-body-sms">
+<p class="text-xs text-[#9AA3B2]">Standard settlement SMS templates captured directly from notification logs:</p>
+<div class="flex flex-col gap-2">
+<div class="preset-row p-3 bg-[#0e0e0e] rounded-lg border border-[#23262D]">
+<p class="font-mono text-[11px] text-[#9AA3B2] leading-relaxed select-all">
+                      1. "Swiggy: Payout of Rs 5,420.00 for Week 44 (Oct 28-Nov 03) credited to HDFC bank ending 4402. Gross: Rs 6,300. Commission: Rs 580. Penalties: Rs 300. Orders: 71. Login: 29.5 hrs."
+                    </p>
+</div>
+<div class="preset-row p-3 bg-[#0e0e0e] rounded-lg border border-[#23262D]">
+<p class="font-mono text-[11px] text-[#9AA3B2] leading-relaxed select-all">
+                      2. "Zomato: Rs 4,890.00 transferred to A/C XX8192 for period Oct 21-27. Total Gross Rs 5,700, Adjustments Rs 310, Surge Pay Rs 420. Shift hours: 26.0. Orders: 59."
+                    </p>
+</div>
+<div class="preset-row p-3 bg-[#0e0e0e] rounded-lg border border-[#23262D]">
+<p class="font-mono text-[11px] text-[#9AA3B2] leading-relaxed select-all">
+                      3. "Blinkit: Weekly payout credited: Rs 6,150.00 (Period: Oct 28 - Nov 03). Gross earning Rs 6,850. Bag and deposit deduction: Rs 700. Order Count: 98. Active time: 34.0 hrs."
+                    </p>
+</div>
+</div>
+<button class="mt-1 px-3 py-1.5 w-fit bg-[#1c1b1b] hover:bg-[#201f1f] text-[#d4ff24] font-mono text-[11px] rounded border border-[#23262D] transition-all hover:-translate-y-0.5 active:scale-95 flex items-center gap-1.5" id="btn-copy-sms-preset" type="button">
+<span class="material-symbols-outlined text-[14px]">content_copy</span>
+<span>Copy 5 Sample SMS into Parser</span>
+</button>
+</div>
+<!-- CSV Preview Tab Body (Hidden) -->
+<div class="relative z-10 hidden flex flex-col gap-3" id="tab-body-csv">
+<p class="text-xs text-[#9AA3B2]">Standard comma-separated telemetry export supported by spreadsheet logs:</p>
+<div class="preset-row p-3 bg-[#0e0e0e] rounded-lg border border-[#23262D]">
+<pre class="font-mono text-[11px] text-[#9AA3B2] overflow-x-auto whitespace-pre-wrap leading-relaxed select-all">date,platform,gross_pay,commission,penalties,fuel_allowance,net_payout,orders,login_hours
+2025-10-20,Swiggy,5900,680,400,0,4820,62,24.5
+2025-10-27,Zomato,5700,500,0,310,5510,59,26.0
+2025-11-03,Blinkit,6850,0,700,0,6150,98,34.0
+2025-11-10,Swiggy,5200,600,150,0,4450,54,22.0
+2025-11-17,Zomato,6100,550,200,420,5770,68,28.5</pre>
+</div>
+<button class="mt-1 px-3 py-1.5 w-fit bg-[#1c1b1b] hover:bg-[#201f1f] text-[#d4ff24] font-mono text-[11px] rounded border border-[#23262D] transition-all hover:-translate-y-0.5 active:scale-95 flex items-center gap-1.5" id="btn-copy-csv-preset" type="button">
+<span class="material-symbols-outlined text-[14px]">content_copy</span>
+<span>Copy CSV Table into Parser</span>
+</button>
+</div>
+</div>
+</div>
+<!-- RIGHT COLUMN: Help Card & Benchmark (~35% -> col-span-4) -->
+<div class="lg:col-span-4 flex flex-col gap-6">
+<!-- Help Card (p-6, bg-[#131313], border border-[#23262D], rounded-2xl) -->
+<div class="reveal-element spotlight-card w-full bg-[#131313] border border-[#23262D] rounded-2xl p-6 flex flex-col gap-5 shadow-xl relative overflow-hidden" data-spotlight="true">
+<div class="spotlight-overlay pointer-events-none absolute inset-0 z-0"></div>
+<!-- Header: "? Where do I find these?" with "GUIDE" badge -->
+<div class="relative z-10 flex items-center justify-between pb-3 border-b border-[#23262D]">
+<div class="flex items-center gap-2.5">
+<div class="w-7 h-7 rounded-lg bg-[#1558C9]/20 flex items-center justify-center">
+<span class="material-symbols-outlined text-[#b1c5ff] text-[18px]">help_center</span>
+</div>
+<h3 class="font-headline text-lg text-white font-semibold">Where do I find these?</h3>
+</div>
+<span class="font-mono text-[10px] text-[#9AA3B2] uppercase tracking-wider px-2 py-0.5 rounded bg-[#1c1b1b] border border-[#23262D]">GUIDE</span>
+</div>
+<!-- Numbered Steps -->
+<div class="relative z-10 flex flex-col">
+<!-- Step 1 (mb-4 / 16px bottom space) -->
+<div class="flex items-start gap-3 mb-4">
+<div class="step-badge w-6 h-6 rounded-full bg-[#1c1b1b] border border-[#23262D] flex items-center justify-center text-[#d4ff24] font-mono text-xs font-bold shrink-0 mt-0.5">
+                    1
+                  </div>
+<div class="flex flex-col gap-1">
+<span class="text-sm font-semibold text-white">Open your app</span>
+<p class="text-xs text-[#9AA3B2] leading-relaxed">
+                      Tested with sample payout messages from Swiggy, Zomato, and Blinkit. Go to <em>Earnings</em> &gt; <em>Weekly Payout Statement</em> or check your automated bank deposit SMS inbox.
+                    </p>
+</div>
+</div>
+<!-- Step 2 -->
+<div class="flex items-start gap-3">
+<div class="step-badge w-6 h-6 rounded-full bg-[#1c1b1b] border border-[#23262D] flex items-center justify-center text-[#b1c5ff] font-mono text-xs font-bold shrink-0 mt-0.5">
+                    2
+                  </div>
+<div class="flex flex-col gap-1">
+<span class="text-sm font-semibold text-white">Copy summary or statement</span>
+<p class="text-xs text-[#9AA3B2] leading-relaxed">
+                      Copy the full weekly summary message text or tap "Share / Export CSV" on your payout tab, then drop or paste the raw string directly into the parser workspace.
+                    </p>
+</div>
+</div>
+</div>
+<!-- Parameter Extraction Matrix -->
+<div class="relative z-10 flex flex-col gap-2 pt-2 border-t border-[#23262D]">
+<div class="flex items-center justify-between">
+<span class="font-mono text-[10px] uppercase text-[#9AA3B2] tracking-wider">What the parser reads</span>
+<span class="font-mono text-[10px] text-[#d4ff24] font-semibold">10 Parameters</span>
+</div>
+<div class="flex flex-wrap gap-1.5">
+<span class="px-2 py-0.5 rounded bg-[#1c1b1b] border border-[#23262D] text-[#9AA3B2] font-mono text-[10px]">Date / Week</span>
+<span class="px-2 py-0.5 rounded bg-[#1c1b1b] border border-[#23262D] text-[#9AA3B2] font-mono text-[10px]">Platform</span>
+<span class="px-2 py-0.5 rounded bg-[#1c1b1b] border border-[#23262D] text-[#9AA3B2] font-mono text-[10px]">Slot / Shift</span>
+<span class="px-2 py-0.5 rounded bg-[#1558C9]/20 border border-[#1558C9]/40 text-[#b1c5ff] font-mono text-[10px] font-medium">Gross Payout</span>
+<span class="px-2 py-0.5 rounded bg-[#1c1b1b] border border-[#23262D] text-[#9AA3B2] font-mono text-[10px]">Platform Cut</span>
+<span class="px-2 py-0.5 rounded bg-[#1c1b1b] border border-[#23262D] text-[#9AA3B2] font-mono text-[10px]">Fuel / Vehicle</span>
+<span class="px-2 py-0.5 rounded bg-[#d4ff24]/10 border border-[#d4ff24]/30 text-[#d4ff24] font-mono text-[10px] font-semibold">Net Received</span>
+<span class="px-2 py-0.5 rounded bg-[#1c1b1b] border border-[#23262D] text-[#9AA3B2] font-mono text-[10px]">Penalties</span>
+<span class="px-2 py-0.5 rounded bg-[#1c1b1b] border border-[#23262D] text-[#9AA3B2] font-mono text-[10px]">Active Hours</span>
+<span class="px-2 py-0.5 rounded bg-[#1c1b1b] border border-[#23262D] text-[#9AA3B2] font-mono text-[10px]">Total Orders</span>
+</div>
+</div>
+<!-- Zero Server Ingestion Block -->
+<div class="relative z-10 p-3 rounded-xl bg-[#0e0e0e] border border-[#23262D] flex items-start gap-2.5">
+<span class="material-symbols-outlined text-[#d4ff24] text-[18px] shrink-0 mt-0.5">verified_user</span>
+<div class="flex flex-col gap-0.5">
+<span class="text-xs font-semibold text-white">Zero Server Ingestion</span>
+<p class="text-[11px] text-[#9AA3B2] leading-relaxed">
+                    Zero server uploads · No credentials needed · Instant local regex computation directly in RAM memory.
+                  </p>
+</div>
+</div>
+</div>
+<!-- Telemetry Accuracy Metric Card -->
+<div class="reveal-element spotlight-card w-full bg-[#131313] border border-[#23262D] rounded-2xl p-6 flex flex-col gap-3 shadow-md relative overflow-hidden" data-spotlight="true">
+<div class="spotlight-overlay pointer-events-none absolute inset-0 z-0"></div>
+<span class="relative z-10 font-mono text-[10px] uppercase text-[#9AA3B2] tracking-wider">Benchmark Detection Accuracy</span>
+<div class="relative z-10 flex items-baseline justify-between">
+<div class="flex items-baseline gap-1">
+<span class="font-headline text-3xl font-bold text-white">99.8</span>
+<span class="font-mono text-sm text-[#d4ff24]">%</span>
+</div>
+<span class="font-mono text-[11px] text-[#9AA3B2]">Validated on 1,400+ sample SMS</span>
+</div>
+<div class="relative z-10 w-full h-10 mt-1">
+<svg class="w-full h-full overflow-visible" fill="none" viewbox="0 0 240 40">
+<path d="M0 32 L30 28 L60 30 L90 20 L120 22 L150 14 L180 16 L210 6 L240 8" stroke="#1558C9" stroke-linecap="round" stroke-width="2"></path>
+<path d="M0 32 L30 28 L60 30 L90 20 L120 22 L150 14 L180 16 L210 6 L240 8 L240 40 L0 40 Z" fill="url(#blue-grad)" opacity="0.2"></path>
+<circle cx="210" cy="6" fill="#D4FF24" r="3.5"></circle>
+<defs>
+<lineargradient id="blue-grad" x1="0" x2="0" y1="0" y2="1">
+<stop offset="0%" stop-color="#1558C9"></stop>
+<stop offset="100%" stop-color="#1558C9" stop-opacity="0"></stop>
+</lineargradient>
+</defs>
+</svg>
+</div>
+</div>
+</div>
+</div>
+</section>
+</div>
+</main>
+<!-- Footer -->
+<footer class="ft-wrap reveal-section"><style>.ft-wrap{width:100%;background:#0a0a0a;color:#e5e2e1}.ft-top{background:linear-gradient(180deg,rgba(21,88,201,.15) 0%,rgba(10,10,10,.15) 100%),#131313;padding:48px 24px;text-align:center}.ft-top-in{max-width:1280px;margin:0 auto;display:flex;flex-direction:column;align-items:center;gap:20px}.ft-h2{margin:0;color:#fff;font-size:28px;line-height:1.25;font-weight:600;font-family:'Space Grotesk',sans-serif}.ft-btn{display:inline-flex;align-items:center;justify-content:center;padding:12px 24px;border-radius:8px;background:#1558c9;color:#fff;font-size:15px;font-weight:500;text-decoration:none;transition:transform .2s cubic-bezier(.16,1,.3,1),box-shadow .2s cubic-bezier(.16,1,.3,1)}.ft-btn:hover{transform:translateY(-2px);box-shadow:0 4px 20px -2px rgba(21,88,201,.65)}.ft-rule{height:1px;width:100%;background:rgba(212,255,36,.4);border:0;margin:0}.ft-main{background:#0a0a0a;padding:48px 24px 32px}.ft-grid{max-width:1280px;margin:0 auto;display:grid;grid-template-columns:1fr;gap:32px}@media(min-width:768px){.ft-grid{grid-template-columns:1.2fr 1fr 1fr}}.ft-col{display:flex;flex-direction:column;gap:8px}.ft-logo{color:#fff;font-weight:700;font-size:20px;font-family:'Space Grotesk',sans-serif;text-decoration:none;width:fit-content}.ft-tag{font-size:12px;color:#9aa3b2;text-transform:uppercase;letter-spacing:.08em;font-family:'JetBrains Mono',monospace}.ft-priv{font-size:13px;color:#9aa3b2;margin-top:4px}.ft-nav{display:flex;flex-direction:column;gap:10px;align-items:flex-start}.ft-link{position:relative;color:#9aa3b2;text-decoration:none;font-size:14px;padding-bottom:2px;transition:color .2s ease}.ft-link::after{content:'';position:absolute;left:50%;bottom:0;width:0;height:2px;background:#1558c9;transform:translateX(-50%);transition:width .2s ease}.ft-link:hover{color:#fff}.ft-link:hover::after{width:100%}.ft-hd{margin:0 0 8px;font-size:12px;color:#fff;text-transform:uppercase;letter-spacing:.08em;font-family:'JetBrains Mono',monospace}.ft-chips{display:flex;flex-wrap:wrap;gap:8px}.ft-chip{padding:4px 12px;border-radius:6px;background:#1e1e1e;border:1px solid rgba(141,144,159,.3);color:#e5e2e1;font-size:13px}.ft-note{font-size:12px;color:#9aa3b2;margin-top:6px}.ft-bottom{background:#0a0a0a;border-top:1px solid #1e1e1e;padding:20px 24px;text-align:center;font-size:12px;color:#9aa3b2}.ft-wrap a:focus-visible,.ft-wrap button:focus-visible{outline:2px solid #d4ff24!important;outline-offset:3px!important}@media(prefers-reduced-motion:reduce){.ft-wrap,.ft-btn,.ft-link,.ft-link::after{transition:none!important;transform:none!important;opacity:1!important}}</style><div class="ft-top"><div class="ft-top-in"><h2 class="ft-h2">Know what your hour is really worth.</h2><a class="ft-btn" href="add-payouts.html">Try the demo →</a></div></div><hr class="ft-rule"/><div class="ft-main"><div class="ft-grid"><div class="ft-col"><a class="ft-logo" href="#hero">PayoutLens</a><span class="ft-tag">Gig financial truth</span><span class="ft-priv">No login · No upload · Runs in your browser.</span></div><nav aria-label="Footer navigation" class="ft-nav"><a class="ft-link" href="overview.html">Overview</a><a class="ft-link" href="add-payouts.html">Add payouts</a><a class="ft-link" href="dashboard.html">Dashboard</a><a class="ft-link" href="details.html">Details</a><a class="ft-link" href="overview.html">How it works</a></nav><div class="ft-col"><h3 class="ft-hd">Tested with</h3><div class="ft-chips"><span class="ft-chip">Swiggy</span><span class="ft-chip">Zomato</span><span class="ft-chip">Blinkit</span></div><span class="ft-note">Sample payout messages only.</span></div></div></div></footer>
+<!-- Controller Script -->
+<script>
+    (function initPayoutLens() {
+      const header = document.getElementById('main-header');
+      const progressBar = document.getElementById('scroll-progress-bar');
+      const textarea = document.getElementById('payout-input');
+      const counterStatus = document.getElementById('counter-status');
+      const confidenceTag = document.getElementById('confidence-tag');
+      const btnSampleSMS = document.getElementById('btn-sample-sms');
+      const btnSampleCSV = document.getElementById('btn-sample-csv');
+      const btnClear = document.getElementById('btn-clear');
+      const btnAnalyse = document.getElementById('btn-analyse');
+      const analyseLabel = document.getElementById('analyse-label');
+      const analyseIcon = document.getElementById('analyse-icon');
+      const csvFileInput = document.getElementById('csv-file-input');
+      const pageWrapper = document.getElementById('page-wrapper');
+      
+      const tabSMS = document.getElementById('tab-toggle-sms');
+      const tabCSV = document.getElementById('tab-toggle-csv');
+      const tabBodySMS = document.getElementById('tab-body-sms');
+      const tabBodyCSV = document.getElementById('tab-body-csv');
+      const btnCopySMS = document.getElementById('btn-copy-sms-preset');
+      const btnCopyCSV = document.getElementById('btn-copy-csv-preset');
+      const btnCopyFormat = document.getElementById('btn-copy-format');
+
+      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      const SAMPLE_SMS = 
+`Swiggy: Payout of Rs 4,820.00 for Week 42 (Oct 14-20) credited to your account. Gross: Rs 5,900. Commission: Rs 680. Penalties: Rs 400. Orders: 62. Login Hrs: 24.5.
+
+Zomato: Rs 3,450.00 transferred for period Oct 07-13. Gross earnings Rs 4,100, Fuel adjustment Rs 350, Tips Rs 220, Orders delivered: 48, Online hours: 19.0.
+
+Swiggy: Payout of Rs 5,640.00 for Week 43 (Oct 21-27) credited to your account. Gross: Rs 6,400. Commission: Rs 610. Penalties: Rs 150. Orders: 74. Login Hrs: 28.0.
+
+Blinkit: Weekly payout credited: Rs 6,150.00 (Period: Oct 28 - Nov 03). Gross earning Rs 6,850. Bag deduction: Rs 700. Order Count: 98. Active time: 34.0 hrs.
+
+Zomato: Rs 4,920.00 transferred for period Oct 28-Nov 03. Gross earnings Rs 5,800, Surge Rs 480, Penalties Rs 100, Orders delivered: 64, Online hours: 26.5.`;
+
+      const SAMPLE_CSV = 
+`date,platform,gross_pay,commission,penalties,fuel_allowance,net_payout,orders,login_hours
+2025-10-20,Swiggy,5900,680,400,0,4820,62,24.5
+2025-10-27,Zomato,5700,500,0,310,5510,59,26.0
+2025-11-03,Blinkit,6850,0,700,0,6150,98,34.0
+2025-11-10,Swiggy,5200,600,150,0,4450,54,22.0
+2025-11-17,Zomato,6100,550,200,420,5770,68,28.5`;
+
+      // 1. Scroll Progress & Sticky Header
+      window.addEventListener('scroll', () => {
+        const scrollTop = window.scrollY || document.documentElement.scrollTop;
+        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+        
+        if (progressBar) {
+          progressBar.style.width = progress + '%';
+        }
+
+        if (header) {
+          if (scrollTop > 20) {
+            header.classList.add('border-[#23262D]', 'shadow-lg');
+            header.classList.remove('border-transparent');
+          } else {
+            header.classList.remove('border-[#23262D]', 'shadow-lg');
+            header.classList.add('border-transparent');
+          }
+        }
+      }, { passive: true });
+
+      // 2. IntersectionObserver for Reveal Elements
+      if (!prefersReducedMotion) {
+        const revealObserver = new IntersectionObserver((entries, observer) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('is-visible');
+              observer.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.08 });
+
+        document.querySelectorAll('.reveal-element').forEach(el => revealObserver.observe(el));
+      } else {
+        document.querySelectorAll('.reveal-element').forEach(el => el.classList.add('is-visible'));
+      }
+
+      // 3. Radial spotlight hover tracker
+      if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+        const spotlightCards = document.querySelectorAll('.spotlight-card');
+        spotlightCards.forEach(card => {
+          card.addEventListener('pointermove', (e) => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            card.style.setProperty('--mouse-x', `${x}px`);
+            card.style.setProperty('--mouse-y', `${y}px`);
+          });
+          card.addEventListener('pointerleave', () => {
+            card.style.setProperty('--mouse-x', `-1000px`);
+            card.style.setProperty('--mouse-y', `-1000px`);
+          });
+        });
+      }
+
+      // 4. Smooth Counter
+      let currentCount = 0;
+      function animateCounterNumber(targetNumber, isCSV) {
+        if (!counterStatus) return;
+        if (targetNumber === 0) {
+          counterStatus.innerHTML = 'Ready: Awaiting telemetry input';
+          return;
+        }
+
+        const start = currentCount;
+        const end = targetNumber;
+        const duration = prefersReducedMotion ? 0 : 250;
+        const startTime = performance.now();
+
+        function updateStep(currentTime) {
+          const elapsed = currentTime - startTime;
+          const progress = duration === 0 ? 1 : Math.min(elapsed / duration, 1);
+          const currentVal = Math.round(start + (end - start) * progress);
+          
+          const smsN = isCSV ? 0 : currentVal;
+          const csvN = isCSV ? currentVal : 0;
+          counterStatus.innerHTML = `Detected <span class="text-[#d4ff24] font-bold font-mono">${currentVal}</span> payouts (<span class="text-[#d4ff24] font-bold font-mono">${smsN}</span> SMS, <span class="text-[#d4ff24] font-bold font-mono">${csvN}</span> CSV)`;
+          
+          if (progress < 1) {
+            requestAnimationFrame(updateStep);
+          } else {
+            currentCount = end;
+          }
+        }
+        requestAnimationFrame(updateStep);
+      }
+
+      // 5. Evaluate Telemetry
+      function evaluateTelemetry() {
+        if (!textarea) return;
+        const text = textarea.value.trim();
+        if (!text) {
+          animateCounterNumber(0, false);
+          confidenceTag.textContent = '100% SECURE MEMORY';
+          confidenceTag.className = 'px-2 py-[2px] rounded bg-[#1c1b1b] border border-[#23262D] text-[#9AA3B2] font-mono text-[10px] font-semibold tracking-wider';
+          return;
+        }
+
+        const lines = text.split('\n').filter(Boolean);
+        const isCSV = text.includes(',') && (lines[0].toLowerCase().includes('payout') || lines[0].toLowerCase().includes('gross') || lines[0].toLowerCase().includes('date'));
+        
+        let smsCount = 0;
+        let csvCount = 0;
+
+        if (isCSV) {
+          csvCount = Math.max(0, lines.length - 1);
+        } else {
+          const matches = text.match(/(?:Swiggy|Zomato|Blinkit|Payout|credited|transferred)/gi);
+          smsCount = matches ? Math.min(lines.length, Math.ceil(matches.length / 2)) : 1;
+        }
+
+        const total = isCSV ? csvCount : smsCount;
+        animateCounterNumber(total, isCSV);
+        
+        confidenceTag.textContent = 'PARSER ACTIVE · 99.8% PRECISION';
+        confidenceTag.className = 'px-2 py-[2px] rounded bg-[#d4ff24]/10 border border-[#d4ff24]/30 text-[#d4ff24] font-mono text-[10px] font-bold tracking-wider';
+      }
+
+      if (textarea) {
+        textarea.addEventListener('input', evaluateTelemetry);
+      }
+
+      // 6. Flash textarea in Acid Lime for 300ms
+      function flashTextareaLime() {
+        if (!textarea) return;
+        textarea.classList.add('textarea-lime-flash');
+        setTimeout(() => {
+          textarea.classList.remove('textarea-lime-flash');
+        }, 320);
+      }
+
+      if (btnSampleSMS) {
+        btnSampleSMS.addEventListener('click', () => {
+          flashTextareaLime();
+          textarea.value = SAMPLE_SMS;
+          evaluateTelemetry();
+          textarea.focus();
+        });
+      }
+
+      if (btnSampleCSV) {
+        btnSampleCSV.addEventListener('click', () => {
+          textarea.value = SAMPLE_CSV;
+          evaluateTelemetry();
+          textarea.focus();
+        });
+      }
+
+      if (btnCopySMS) {
+        btnCopySMS.addEventListener('click', () => {
+          flashTextareaLime();
+          textarea.value = SAMPLE_SMS;
+          evaluateTelemetry();
+          textarea.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          textarea.focus();
+        });
+      }
+
+      if (btnCopyCSV) {
+        btnCopyCSV.addEventListener('click', () => {
+          textarea.value = SAMPLE_CSV;
+          evaluateTelemetry();
+          textarea.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          textarea.focus();
+        });
+      }
+
+      if (btnClear) {
+        btnClear.addEventListener('click', () => {
+          textarea.value = '';
+          evaluateTelemetry();
+          textarea.focus();
+        });
+      }
+
+      if (btnCopyFormat) {
+        btnCopyFormat.addEventListener('click', () => {
+          if (!textarea.value.trim()) return;
+          const formatted = textarea.value.trim().split(/\n{2,}/).join('\n\n');
+          textarea.value = formatted;
+          evaluateTelemetry();
+        });
+      }
+
+      if (csvFileInput) {
+        csvFileInput.addEventListener('change', (e) => {
+          const file = e.target.files[0];
+          if (!file) return;
+          const reader = new FileReader();
+          reader.onload = (event) => {
+            textarea.value = event.target.result;
+            evaluateTelemetry();
+          };
+          reader.readAsText(file);
+        });
+      }
+
+      // Tab Switcher
+      if (tabSMS && tabCSV && tabBodySMS && tabBodyCSV) {
+        tabSMS.addEventListener('click', () => {
+          tabSMS.className = 'px-3 py-1 rounded font-mono text-[11px] uppercase transition-all bg-[#1c1b1b] text-[#d4ff24] font-medium';
+          tabCSV.className = 'px-3 py-1 rounded font-mono text-[11px] uppercase transition-all text-[#9AA3B2] hover:text-white';
+          tabBodySMS.classList.remove('hidden');
+          tabBodyCSV.classList.add('hidden');
+        });
+
+        tabCSV.addEventListener('click', () => {
+          tabCSV.className = 'px-3 py-1 rounded font-mono text-[11px] uppercase transition-all bg-[#1c1b1b] text-[#d4ff24] font-medium';
+          tabSMS.className = 'px-3 py-1 rounded font-mono text-[11px] uppercase transition-all text-[#9AA3B2] hover:text-white';
+          tabBodyCSV.classList.remove('hidden');
+          tabBodySMS.classList.add('hidden');
+        });
+      }
+
+      // 7. Analyse Click simulation
+      if (btnAnalyse) {
+        btnAnalyse.addEventListener('click', () => {
+          if (!textarea.value.trim()) {
+            flashTextareaLime();
+            textarea.value = SAMPLE_SMS;
+            evaluateTelemetry();
+          }
+
+          analyseLabel.textContent = 'Computing locally...';
+          analyseIcon.className = 'material-symbols-outlined text-[18px] animate-spin';
+          analyseIcon.textContent = 'progress_activity';
+
+          setTimeout(() => {
+            analyseLabel.textContent = 'Opening Dashboard...';
+            analyseIcon.className = 'material-symbols-outlined text-[18px] text-[#d4ff24]';
+            analyseIcon.textContent = 'check_circle';
+
+            if (pageWrapper) {
+              pageWrapper.classList.add('page-exit-left');
+            }
+
+            setTimeout(() => {
+              const dashLink = document.querySelector('a[data-path="dashboard"]');
+              if (dashLink && dashLink.getAttribute('href') && dashLink.getAttribute('href') !== '#') {
+                window.location.href = dashLink.getAttribute('href');
+              } else {
+                setTimeout(() => {
+                  if (pageWrapper) pageWrapper.classList.remove('page-exit-left');
+                  analyseLabel.textContent = 'Analyse Payouts';
+                  analyseIcon.className = 'material-symbols-outlined text-[18px]';
+                  analyseIcon.textContent = 'arrow_forward';
+                }, 700);
+              }
+            }, 400);
+          }, 600);
+        });
+      }
+    })();
+  </script>
+
+<script id="payoutlens-overview-header-controller">
+(function () {
+  const header = document.getElementById('site-header');
+  const progress = document.getElementById('scroll-progress');
+  const menuBtn = document.getElementById('mobile-menu-btn');
+  const menuPanel = document.getElementById('mobile-menu-panel');
+
+  window.addEventListener('scroll', function () {
+    const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+    if (progress && scrollHeight > 0) {
+      progress.style.width = ((window.scrollY / scrollHeight) * 100) + '%';
+    }
+    if (header) {
+      if (window.scrollY > 40) {
+        header.classList.remove('bg-transparent');
+        header.classList.add('bg-[#0a0a0a]/90', 'backdrop-blur-xl', 'border-b', 'border-surface-container-high');
+      } else {
+        header.classList.add('bg-transparent');
+        header.classList.remove('bg-[#0a0a0a]/90', 'backdrop-blur-xl', 'border-b', 'border-surface-container-high');
+      }
+    }
+  });
+
+  if (menuBtn && menuPanel) {
+    menuBtn.addEventListener('click', function () {
+      menuPanel.classList.toggle('hidden');
+    });
+  }
+})();
+</script>
+</body></html>

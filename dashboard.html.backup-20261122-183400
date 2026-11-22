@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_standard" name="shell-type"/><title>PayoutLens — Gig Financial Truth</title><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500;600&amp;family=Space+Grotesk:wght@500;600;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>
+@layer base {
+  html, body {
+    margin: 0;
+    padding: 0;
+    background-color: #131313;
+  }
+  body {
+    overscroll-behavior: none;
+  }
+}
+::-webkit-scrollbar {
+  display: none;
+}
+:focus-visible {
+  outline: 2px solid #D4FF24 !important;
+  outline-offset: 3px !important;
+}
+
+/* Nav Link Underline animation */
+.nav-link-item {
+  position: relative;
+}
+.nav-link-item::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background-color: #1558c9;
+  transition: width 0.25s ease, left 0.25s ease;
+}
+.nav-link-item:hover::after {
+  width: 100%;
+  left: 0;
+}
+.nav-link-item.active::after {
+  width: 100%;
+  left: 0;
+}
+
+/* Card hover & spotlight effects on hover devices */
+@media (hover: hover) {
+  .interactive-card {
+    transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+  }
+  .interactive-card:hover {
+    transform: translateY(-4px);
+    border-color: #1558c9 !important;
+    box-shadow: 0 12px 30px -10px rgba(21, 88, 201, 0.25);
+  }
+  .whatif-card:hover {
+    transform: translateY(-2px);
+    border-color: #1558c9 !important;
+  }
+  .btn-cobalt:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 20px rgba(21, 88, 201, 0.45);
+  }
+  .btn-cobalt:active {
+    transform: scale(0.98);
+  }
+}
+
+/* Arithmetic tooltip row hover */
+.breakdown-row {
+  position: relative;
+  transition: background-color 0.2s ease;
+  border-radius: 0.5rem;
+  padding: 0.35rem 0.5rem;
+  margin: -0.35rem -0.5rem;
+}
+.breakdown-row:hover {
+  background-color: rgba(255, 255, 255, 0.04);
+}
+.breakdown-row .row-tooltip {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(4px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+.breakdown-row:hover .row-tooltip {
+  opacity: 1;
+  transform: translateY(0);
+}
+</style><script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{colors:{"surface-container-high":"#2a2a2a","on-surface-variant":"#c3c6d6","error-container":"#93000a","secondary-fixed-dim":"#afd500","tertiary-container":"#5d5e66","on-secondary-fixed-variant":"#3e4c00","tertiary-fixed-dim":"#c5c6cf","on-primary-container":"#ccd8ff","on-secondary":"#2a3500","surface-container-highest":"#353534","on-tertiary-container":"#d8d8e2","outline":"#8d909f","primary-container":"#1558c9","on-tertiary-fixed":"#191b22","on-tertiary-fixed-variant":"#45464e","surface-bright":"#3a3939","surface":"#131313","on-surface":"#e5e2e1","inverse-on-surface":"#313030","on-tertiary":"#2e3037","surface-tint":"#b1c5ff","on-primary-fixed-variant":"#00419f","outline-variant":"#434653","tertiary":"#c5c6cf","surface-container":"#201f1f","secondary-fixed":"#c8f30c","surface-variant":"#353534","on-primary":"#002c71","error":"#ffb4ab","surface-container-lowest":"#0e0e0e","on-error-container":"#ffdad6","secondary":"#f4ffc7","on-primary-fixed":"#001946","on-error":"#690005","secondary-container":"#c3ed00","primary-fixed":"#dae2ff","surface-dim":"#131313","on-secondary-fixed":"#171e00","inverse-primary":"#1458c9","background":"#131313","primary-fixed-dim":"#b1c5ff","primary":"#b1c5ff","on-background":"#e5e2e1","tertiary-fixed":"#e2e2eb","on-secondary-container":"#556800","surface-container-low":"#1c1b1b","inverse-surface":"#e5e2e1"},borderRadius:{DEFAULT:"0.125rem",lg:"0.25rem",xl:"0.5rem",full:"0.75rem"},spacing:{"space-xl":"2.5rem","space-sm":"0.5rem","margin-sm":"1rem","gutter-sm":"0.75rem","space-xs":"0.25rem",gutter:"1.5rem","space-md":"1rem",margin:"2rem","space-lg":"1.5rem"},fontFamily:{"headline-md":["Space Grotesk"],"metric-stat-lg-mobile":["Space Grotesk"],"label-mono-sm":["JetBrains Mono"],"metric-stat-lg":["Space Grotesk"],"headline-lg":["Space Grotesk"],"display-hero-mobile":["Space Grotesk"],"metric-stat-md":["Space Grotesk"],"headline-lg-mobile":["Space Grotesk"],"body-md":["Hanken Grotesk"],"display-hero":["Space Grotesk"],"label-mono-xs":["JetBrains Mono"],"body-lg":["Hanken Grotesk"],"body-sm":["Hanken Grotesk"]},fontSize:{"headline-md":["24px",{lineHeight:"30px",letterSpacing:"-0.01em",fontWeight:"500"}],"metric-stat-lg-mobile":["32px",{lineHeight:"36px",letterSpacing:"-0.02em",fontWeight:"700"}],"label-mono-sm":["11px",{lineHeight:"14px",letterSpacing:"0.06em",fontWeight:"500"}],"metric-stat-lg":["44px",{lineHeight:"48px",letterSpacing:"-0.03em",fontWeight:"700"}],"headline-lg":["36px",{lineHeight:"42px",letterSpacing:"-0.02em",fontWeight:"600"}],"display-hero-mobile":["38px",{lineHeight:"44px",letterSpacing:"-0.02em",fontWeight:"600"}],"metric-stat-md":["28px",{lineHeight:"32px",letterSpacing:"-0.02em",fontWeight:"600"}],"headline-lg-mobile":["28px",{lineHeight:"34px",letterSpacing:"-0.01em",fontWeight:"600"}],"body-md":["15px",{lineHeight:"24px",fontWeight:"400"}],"display-hero":["56px",{lineHeight:"64px",letterSpacing:"-0.03em",fontWeight:"600"}],"label-mono-xs":["10px",{lineHeight:"12px",letterSpacing:"0.08em",fontWeight:"400"}],"body-lg":["18px",{lineHeight:"28px",fontWeight:"400"}],"body-sm":["13px",{lineHeight:"20px",fontWeight:"400"}]}}}}</script></head><body class="bg-background font-body-md text-on-surface antialiased selection:bg-primary-container selection:text-on-primary-container overflow-x-hidden min-h-screen flex flex-col justify-between"><header class="fixed top-0 left-0 w-full z-50 bg-surface-container-lowest/90 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.4)]"><div class="h-16 w-full px-margin-sm lg:px-margin flex items-center justify-between max-w-7xl mx-auto"><div class="flex items-center gap-space-sm"><span class="font-headline-md text-headline-md tracking-tight text-on-surface">PayoutLens</span><span class="font-label-mono-xs text-label-mono-xs tracking-wider uppercase px-space-xs py-0.5 rounded bg-surface-container-high text-on-surface-variant">GIG FINANCIAL TRUTH</span></div><nav class="hidden lg:flex items-center gap-[28px]"><a class="nav-link-item font-body-md text-body-md text-on-surface-variant hover:text-on-surface transition-colors pb-0.5" data-path="overview" href="overview.html">Overview</a><a class="nav-link-item font-body-md text-body-md text-on-surface-variant hover:text-on-surface transition-colors pb-0.5" data-path="add-payouts" href="add-payouts.html">Add payouts</a><a aria-current="page" class="nav-link-item active font-body-md text-body-md text-on-surface font-semibold pb-0.5" data-path="dashboard" href="dashboard.html">Dashboard</a><a class="nav-link-item font-body-md text-body-md text-on-surface-variant hover:text-on-surface transition-colors pb-0.5" data-path="details" href="details.html">Details</a><a class="nav-link-item font-body-md text-body-md text-on-surface-variant hover:text-on-surface transition-colors pb-0.5" data-path="how-it-works" href="overview.html">How it works</a></nav><div class="flex items-center gap-space-md"><div class="hidden sm:flex items-center gap-space-xs px-space-sm py-1 rounded-full bg-surface-container-low text-on-surface-variant font-label-mono-xs text-label-mono-xs uppercase"><span class="w-1.5 h-1.5 rounded-full bg-[#D4FF24]"></span><span>NO LOGIN · RUNS LOCALLY</span></div><a class="btn-cobalt px-space-md py-1.5 rounded-lg bg-surface-container-high hover:bg-surface-container-highest text-on-surface font-body-sm text-body-sm transition-all" data-path="dashboard" href="add-payouts.html">Try Demo</a><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="w-full pt-16 bg-background flex-1"><div class="flex flex-col w-full text-on-surface">
+<!-- HERO SECTION WITH CAB DRIVER IMAGE -->
+<div class="relative w-full h-[240px] lg:h-[340px] bg-[#0A0A0A] overflow-hidden select-none" id="hero-viewport">
+<div class="absolute inset-0 w-full h-full transform origin-center will-change-transform" id="hero-media-wrapper">
+<img alt="Cab driver at the wheel at night, with city lights through the windscreen." class="w-full h-full object-cover object-[60%_center] lg:object-[center_35%] opacity-85 transition-transform duration-700 ease-out" decoding="async" id="hero-img" loading="eager" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCzF_U6hDORYcP3eXSdbAczdzIBsN7rLh556wmt8MbXVjZ-zxF5Ns8mqLUmC86opUPkKyYKD-zT37vWnHiMq4Ogv__t5Abj6K8P8VyGTxKQVgE-jTu5rlZzUWBjUJdmVRNw8Gt4iLerNLc1YhJa4MfuDrFBeZAbgx2yIpoAmvvtcr-THaJyywcLoG2GCoKFfgn6jhQqNZh1NqSLSt-r3BdG78SJ9ZbIPUKoCyf9CfotfGVBRcpApYlM"/>
+</div>
+<!-- Light bottom gradient from #0A0A0A at 60% opacity to transparent, NO dark overlay on upper part -->
+<div class="absolute inset-0 bg-gradient-to-t from-[#0A0A0A]/60 via-[#0A0A0A]/20 to-transparent pointer-events-none"></div>
+<!-- Ambient Telemetric Horizon Light -->
+<div class="absolute top-0 right-1/4 w-96 h-48 bg-primary-container/10 blur-[90px] rounded-full pointer-events-none"></div>
+<!-- Caption badge at bottom-left: 16px from edge, fully inside image, not clipped -->
+<div class="absolute bottom-4 left-4 z-10 flex items-center gap-space-xs px-3 py-1 rounded-full bg-black/60 backdrop-blur-md text-white text-[12px] font-body-sm">
+<span class="w-1.5 h-1.5 rounded-full bg-[#D4FF24]"></span>
+<span>AI-generated illustration. Example driver.</span>
+</div>
+<!-- Telemetry status top-right -->
+<div class="absolute top-4 right-4 z-10 hidden sm:flex items-center gap-space-xs px-2.5 py-1 rounded bg-[#0A0A0A]/70 backdrop-blur-md border border-outline-variant/20 font-label-mono-xs text-label-mono-xs text-on-surface-variant">
+<span class="w-2 h-2 rounded-full bg-[#D4FF24] animate-pulse"></span>
+<span>Your data stays in this browser.</span>
+</div>
+</div>
+<!-- MAIN DASHBOARD CONTENT WRAPPER -->
+<div class="w-full px-margin-sm lg:px-margin max-w-7xl mx-auto flex flex-col gap-space-xl">
+<!-- 2. OVERLAPPING HERO RATE CARD (-40px overlap into hero bottom) -->
+<div class="relative z-10 -mt-10 w-full perspective-1000">
+<div class="interactive-card bg-[#131313] rounded-[16px] border border-[#23262D] p-6 shadow-2xl relative overflow-hidden backdrop-blur-xl" id="hero-rate-card">
+<div class="card-radial-spotlight pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300"></div>
+<div class="flex flex-col lg:flex-row lg:items-center justify-between gap-space-md lg:gap-space-lg relative z-10">
+<!-- Left: Big Metric Display -->
+<div class="flex items-start sm:items-center gap-space-md">
+<div class="flex flex-col transform transition-transform duration-700 ease-out" id="rate-flip-target">
+<span class="font-label-mono-xs text-label-mono-xs uppercase text-on-surface-variant tracking-wider flex items-center gap-1.5 mb-1">
+<span class="material-symbols-outlined text-primary text-[14px]">speed</span>
+                Your hourly rate, after fuel and fees.
+              </span>
+<div class="flex items-baseline gap-2">
+<span class="font-headline-lg text-[44px] lg:text-[54px] leading-none tracking-tight text-[#D4FF24] font-bold font-headline-md" id="hourly-rate-counter">
+                  ₹212
+                </span>
+<span class="font-label-mono-sm text-label-mono-sm uppercase text-[#D4FF24]/80 tracking-widest font-semibold">/hr</span>
+</div>
+<span class="font-label-mono-xs text-label-mono-xs text-on-surface-variant mt-1.5 flex items-center gap-1" id="rate-sublabel">
+<span class="material-symbols-outlined text-[12px] text-outline">tune</span>
+                After fuel and platform fees, across 85.0 verified hours
+              </span>
+</div>
+</div>
+<!-- Divider on mobile / tablet -->
+<div class="h-[1px] lg:h-12 w-full lg:w-[1px] bg-outline-variant/30"></div>
+<!-- Right: Contextual Explanation Sentence Built from Real Data -->
+<div class="flex-1 max-w-xl flex flex-col justify-center">
+<p class="font-body-md text-body-md text-on-surface leading-relaxed" id="dynamic-summary-sentence">
+              You earned <strong class="text-on-surface font-semibold">₹18,000</strong> this week. After fuel, that's <strong class="text-[#D4FF24] font-semibold underline decoration-[#D4FF24]/40 underline-offset-4">₹212 an hour</strong>.
+            </p>
+<div class="mt-2.5 flex flex-wrap items-center gap-space-xs font-label-mono-xs text-label-mono-xs">
+<span class="px-2 py-0.5 rounded bg-surface-container-high text-on-surface-variant border border-outline-variant/30 flex items-center gap-1">
+<span class="material-symbols-outlined text-[11px] text-[#D4FF24]">verified_user</span>
+                Client-side verified
+              </span>
+<span class="px-2 py-0.5 rounded bg-surface-container-high text-on-surface-variant border border-outline-variant/30">
+                100% In-Memory Sandbox
+              </span>
+<span class="hidden px-2 py-0.5 rounded bg-primary-container/20 text-primary border border-primary/40 font-semibold" id="simulator-state-chip">
+                Example data for demo.
+              </span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- EMPTY STATE PLACEHOLDER (Controlled via URL ?empty=1) -->
+<div class="hidden w-full bg-surface-container-low rounded-xl border border-outline-variant/30 p-space-xl text-center flex-col items-center justify-center gap-space-md py-16" id="empty-state-card">
+<div class="w-14 h-14 rounded-full bg-surface-container-high flex items-center justify-center text-primary-fixed border border-primary/20">
+<span class="material-symbols-outlined text-[28px]">receipt_long</span>
+</div>
+<div class="max-w-md">
+<h3 class="font-headline-md text-headline-md text-on-surface mb-2">No statements ingested yet</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Add weekly payout exports or shift logs from Swiggy, Zomato, or Blinkit to audit fuel leakage, penalty clawbacks, and net hourly returns.</p>
+</div>
+<a class="btn-cobalt mt-2 px-space-lg py-2.5 rounded-lg bg-primary-container text-on-primary font-body-sm text-body-sm font-semibold tracking-wide shadow-lg hover:bg-primary-container/90 transition-all flex items-center gap-2" data-path="add-payouts" href="add-payouts.html">
+<span class="material-symbols-outlined text-[16px]">upload_file</span>
+<span>Add Payouts to See Your Hourly Rate</span>
+</a>
+</div>
+<!-- MAIN DASHBOARD DATA ZONE -->
+<div class="w-full flex flex-col gap-space-xl" id="dashboard-data-zone">
+<!-- 3. FOUR STAT TILES -->
+<div class="w-full">
+<div class="flex items-center justify-between mb-space-sm">
+<span class="font-label-mono-xs text-label-mono-xs uppercase text-on-surface-variant tracking-wider flex items-center gap-1.5">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+            Weekly Telemetric Ledger
+          </span>
+<span class="font-label-mono-xs text-label-mono-xs text-on-surface-variant font-medium">Week 42 · 9–15 Nov 2026</span>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-gutter">
+<!-- Card 1: Gross -->
+<div class="interactive-card tilt-stat-card group relative bg-surface-container-low rounded-xl border border-[#23262D] p-space-md transition-all duration-300 ease-out overflow-hidden cursor-default">
+<div class="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300 card-radial-spotlight"></div>
+<div class="flex flex-col gap-space-xs relative z-10">
+<span class="font-label-mono-xs text-label-mono-xs uppercase text-on-surface-variant tracking-wide">Gross Earnings</span>
+<div class="flex items-baseline justify-between mt-1">
+<span class="font-headline-md text-headline-md text-on-surface font-semibold" id="card-gross">₹22,000</span>
+<span class="font-label-mono-xs text-label-mono-xs px-2 py-0.5 rounded bg-secondary-fixed/10 text-[#D4FF24] border border-[#D4FF24]/20">
+                  ↑ +8.4%
+                </span>
+</div>
+<p class="font-label-mono-xs text-label-mono-xs text-on-surface-variant mt-2 border-t border-outline-variant/20 pt-2">
+                In-app platform base total
+              </p>
+</div>
+</div>
+<!-- Card 2: Take-Home Pay -->
+<div class="interactive-card tilt-stat-card group relative bg-surface-container-low rounded-xl border border-[#23262D] p-space-md transition-all duration-300 ease-out overflow-hidden cursor-default">
+<div class="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300 card-radial-spotlight"></div>
+<div class="flex flex-col gap-space-xs relative z-10">
+<span class="font-label-mono-xs text-label-mono-xs uppercase text-on-surface-variant tracking-wide">Take-Home Pay</span>
+<div class="flex items-baseline justify-between mt-1">
+<span class="font-headline-md text-headline-md text-on-surface font-semibold" id="card-take-home">₹19,600</span>
+<span class="font-label-mono-xs text-label-mono-xs px-2 py-0.5 rounded bg-secondary-fixed/10 text-[#D4FF24] border border-[#D4FF24]/20">
+                  ↑ +5.2%
+                </span>
+</div>
+<p class="font-label-mono-xs text-label-mono-xs text-on-surface-variant mt-2 border-t border-outline-variant/20 pt-2 truncate" title="Gross ₹22,000 − Commission ₹2,000 − Penalties ₹400">
+                Gross ₹22,000 − Comm. ₹2,000 − Pen. ₹400
+              </p>
+</div>
+</div>
+<!-- Card 3: After Fuel -->
+<div class="interactive-card tilt-stat-card group relative bg-surface-container-low rounded-xl border border-[#23262D] p-space-md transition-all duration-300 ease-out overflow-hidden cursor-default">
+<div class="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300 card-radial-spotlight"></div>
+<div class="flex flex-col gap-space-xs relative z-10">
+<span class="font-label-mono-xs text-label-mono-xs uppercase text-on-surface-variant tracking-wide">After Fuel</span>
+<div class="flex items-baseline justify-between mt-1">
+<span class="font-headline-md text-headline-md text-[#D4FF24] font-semibold" id="card-net-fuel">₹18,000</span>
+<span class="font-label-mono-xs text-label-mono-xs px-2 py-0.5 rounded bg-secondary-fixed/10 text-[#D4FF24] border border-[#D4FF24]/20">
+                  ↑ +6.1%
+                </span>
+</div>
+<p class="font-label-mono-xs text-label-mono-xs text-on-surface-variant mt-2 border-t border-outline-variant/20 pt-2">
+                Take-Home ₹19,600 − Fuel ₹1,600
+              </p>
+</div>
+</div>
+<!-- Card 4: Active Hours -->
+<div class="interactive-card tilt-stat-card group relative bg-surface-container-low rounded-xl border border-[#23262D] p-space-md transition-all duration-300 ease-out overflow-hidden cursor-default">
+<div class="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300 card-radial-spotlight"></div>
+<div class="flex flex-col gap-space-xs relative z-10">
+<span class="font-label-mono-xs text-label-mono-xs uppercase text-on-surface-variant tracking-wide">Active Hours</span>
+<div class="flex items-baseline justify-between mt-1">
+<span class="font-headline-md text-headline-md text-on-surface font-semibold" id="card-active-hours">85.0 hrs</span>
+<span class="font-label-mono-xs text-label-mono-xs px-2 py-0.5 rounded bg-surface-container-high text-on-surface-variant border border-outline-variant/30">
+                  ↓ -2.0 hrs
+                </span>
+</div>
+<p class="font-label-mono-xs text-label-mono-xs text-on-surface-variant mt-2 border-t border-outline-variant/20 pt-2">
+                Across 7 shifts (Avg 12.1 hrs/day)
+              </p>
+</div>
+</div>
+</div>
+</div>
+<!-- 4. TWO-COLUMN BREAKDOWN CHARTS -->
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-gutter">
+<!-- Left Column: Where your hours paid best -->
+<div class="bg-surface-container-low rounded-xl border border-[#23262D] p-space-md lg:p-space-lg flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between pb-space-xs border-b border-outline-variant/20 mb-space-md">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[18px]">schedule</span>
+<h3 class="font-headline-md text-[18px] text-on-surface font-semibold tracking-tight">Where your hours paid best</h3>
+</div>
+<span class="font-label-mono-xs text-label-mono-xs text-on-surface-variant uppercase">By Slot Yield</span>
+</div>
+<div class="flex flex-col gap-space-md">
+<!-- Fri-Sat dinners / Night Slot -->
+<div class="breakdown-row flex flex-col gap-1.5 cursor-pointer">
+<div class="flex items-center justify-between font-label-mono-xs text-label-mono-xs">
+<div class="flex items-center gap-2">
+<span class="font-medium text-on-surface">Fri–Sat dinners / Night (8 PM – 12 AM)</span>
+<span class="px-1.5 py-0.2 rounded bg-secondary-fixed/10 text-[#D4FF24] border border-[#D4FF24]/20 uppercase text-[9px]">Peak Yield</span>
+</div>
+<div class="flex items-center gap-3">
+<span class="text-on-surface-variant">36 hrs</span>
+<span class="text-[#D4FF24] font-semibold">₹268/hr</span>
+</div>
+</div>
+<div class="w-full h-3 bg-surface-container-highest rounded-full overflow-hidden">
+<div class="chart-animated-bar h-full bg-primary-container rounded-full" data-target-width="100%" style="width: 0%;"></div>
+</div>
+<div class="row-tooltip flex items-center justify-between text-[11px] text-primary font-label-mono-xs pt-0.5">
+<span>Arithmetic: ₹9,648 earned ÷ 36.0 hrs</span>
+<span>Base + surge multipliers</span>
+</div>
+</div>
+<!-- Weekday lunches -->
+<div class="breakdown-row flex flex-col gap-1.5 cursor-pointer">
+<div class="flex items-center justify-between font-label-mono-xs text-label-mono-xs">
+<span class="font-medium text-on-surface">Weekday lunches (12 PM – 3 PM)</span>
+<div class="flex items-center gap-3">
+<span class="text-on-surface-variant">24 hrs</span>
+<span class="text-on-surface font-semibold">₹184/hr</span>
+</div>
+</div>
+<div class="w-full h-3 bg-surface-container-highest rounded-full overflow-hidden">
+<div class="chart-animated-bar h-full bg-primary rounded-full" data-target-width="69%" style="width: 0%;"></div>
+</div>
+<div class="row-tooltip flex items-center justify-between text-[11px] text-primary font-label-mono-xs pt-0.5">
+<span>Arithmetic: ₹4,416 earned ÷ 24.0 hrs</span>
+<span>High order density</span>
+</div>
+</div>
+<!-- Evening Slot -->
+<div class="breakdown-row flex flex-col gap-1.5 cursor-pointer">
+<div class="flex items-center justify-between font-label-mono-xs text-label-mono-xs">
+<div class="flex items-center gap-2">
+<span class="font-medium text-on-surface">Evening (4 PM – 8 PM)</span>
+<span class="px-1.5 py-0.2 rounded bg-error-container/20 text-error border border-error/20 uppercase text-[9px]">Congested</span>
+</div>
+<div class="flex items-center gap-3">
+<span class="text-on-surface-variant">25 hrs</span>
+<span class="text-on-surface-variant font-semibold">₹142/hr</span>
+</div>
+</div>
+<div class="w-full h-3 bg-surface-container-highest rounded-full overflow-hidden">
+<div class="chart-animated-bar h-full bg-surface-bright rounded-full" data-target-width="53%" style="width: 0%;"></div>
+</div>
+<div class="row-tooltip flex items-center justify-between text-[11px] text-primary font-label-mono-xs pt-0.5">
+<span>Arithmetic: ₹3,550 earned ÷ 25.0 hrs</span>
+<span>High traffic idle penalty</span>
+</div>
+</div>
+</div>
+</div>
+<div class="mt-space-md pt-space-xs border-t border-outline-variant/20 flex items-center justify-between text-on-surface-variant font-label-mono-xs text-label-mono-xs">
+<span>Fri–Sat dinner surge active</span>
+<span class="text-primary">Difference: +₹126/hr spread</span>
+</div>
+</div>
+<!-- Right Column: By Platform -->
+<div class="bg-surface-container-low rounded-xl border border-[#23262D] p-space-md lg:p-space-lg flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between pb-space-xs border-b border-outline-variant/20 mb-space-md">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[18px]">pie_chart</span>
+<h3 class="font-headline-md text-[18px] text-on-surface font-semibold tracking-tight">By tested platform</h3>
+</div>
+<span class="font-label-mono-xs text-label-mono-xs text-on-surface-variant uppercase">Net Allocation</span>
+</div>
+<div class="flex flex-col gap-space-md">
+<!-- Blinkit -->
+<div class="breakdown-row flex flex-col gap-1.5 cursor-pointer">
+<div class="flex items-center justify-between font-label-mono-xs text-label-mono-xs">
+<span class="font-medium text-on-surface">Blinkit (Quick Commerce)</span>
+<div class="flex items-center gap-3">
+<span class="text-on-surface-variant">30 hrs · ₹7,140</span>
+<span class="text-[#D4FF24] font-semibold">₹238/hr</span>
+</div>
+</div>
+<div class="w-full h-3 bg-surface-container-highest rounded-full overflow-hidden">
+<div class="chart-animated-bar h-full bg-primary-container rounded-full" data-target-width="88%" style="width: 0%;"></div>
+</div>
+<div class="row-tooltip flex items-center justify-between text-[11px] text-primary font-label-mono-xs pt-0.5">
+<span>Arithmetic: ₹7,140 net ÷ 30.0 hrs</span>
+<span>Shorter batch delivery radials</span>
+</div>
+</div>
+<!-- Swiggy -->
+<div class="breakdown-row flex flex-col gap-1.5 cursor-pointer">
+<div class="flex items-center justify-between font-label-mono-xs text-label-mono-xs">
+<span class="font-medium text-on-surface">Swiggy</span>
+<div class="flex items-center gap-3">
+<span class="text-on-surface-variant">30 hrs · ₹6,240</span>
+<span class="text-on-surface font-semibold">₹208/hr</span>
+</div>
+</div>
+<div class="w-full h-3 bg-surface-container-highest rounded-full overflow-hidden">
+<div class="chart-animated-bar h-full bg-primary/80 rounded-full" data-target-width="77%" style="width: 0%;"></div>
+</div>
+<div class="row-tooltip flex items-center justify-between text-[11px] text-primary font-label-mono-xs pt-0.5">
+<span>Arithmetic: ₹6,240 net ÷ 30.0 hrs</span>
+<span>Consistent order dispatch</span>
+</div>
+</div>
+<!-- Zomato -->
+<div class="breakdown-row flex flex-col gap-1.5 cursor-pointer">
+<div class="flex items-center justify-between font-label-mono-xs text-label-mono-xs">
+<span class="font-medium text-on-surface">Zomato</span>
+<div class="flex items-center gap-3">
+<span class="text-on-surface-variant">25 hrs · ₹4,620</span>
+<span class="text-on-surface-variant font-semibold">₹185/hr</span>
+</div>
+</div>
+<div class="w-full h-3 bg-surface-container-highest rounded-full overflow-hidden">
+<div class="chart-animated-bar h-full bg-surface-bright rounded-full" data-target-width="69%" style="width: 0%;"></div>
+</div>
+<div class="row-tooltip flex items-center justify-between text-[11px] text-primary font-label-mono-xs pt-0.5">
+<span>Arithmetic: ₹4,620 net ÷ 25.0 hrs</span>
+<span>High platform commission fee</span>
+</div>
+</div>
+</div>
+</div>
+<div class="mt-space-md pt-space-xs border-t border-outline-variant/20 flex items-center justify-between text-on-surface-variant font-label-mono-xs text-label-mono-xs">
+<span>Aggregated from 3 verified statements</span>
+<span class="text-[#D4FF24]">Blinkit leads yield by +14.4%</span>
+</div>
+</div>
+</div>
+<!-- 5. INSIGHT CALLOUT BOX & 6. SUGGESTED CHANGE CARD -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter items-stretch">
+<!-- 5. Deductions Insight Callout Box (5 cols) -->
+<div class="lg:col-span-5 bg-surface-container-low rounded-xl border border-[#23262D] p-space-md lg:p-space-lg flex flex-col justify-between">
+<div class="flex flex-col gap-space-sm">
+<div class="flex items-center gap-2 text-on-surface-variant">
+<span class="material-symbols-outlined text-[20px] text-primary">analytics</span>
+<span class="font-label-mono-xs text-label-mono-xs uppercase tracking-wider font-semibold">Leakage Checked Insight</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface leading-relaxed">
+              Total deductions account for <span class="text-error font-semibold underline decoration-error/30 underline-offset-2">18.2%</span> of your gross earnings (<span class="text-on-surface font-semibold">₹4,000</span> lost to platform commissions, penalties, and fuel).
+            </p>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+              Calculated automatically. Gross vs After Fuel Gap: ₹4,000.
+            </p>
+</div>
+<div class="mt-space-md pt-space-sm border-t border-outline-variant/20 flex items-center justify-between font-label-mono-xs text-label-mono-xs text-on-surface-variant">
+<span>Calculated automatically</span>
+<span class="text-on-surface font-semibold">Gross vs After Fuel Gap: ₹4,000</span>
+</div>
+</div>
+<!-- 6. Suggested Change Card (Electric Cobalt Highlight) (7 cols) -->
+<div class="lg:col-span-7 bg-surface-container-low rounded-xl border-2 border-primary-container p-space-md lg:p-space-lg relative overflow-hidden shadow-[0_0_30px_rgba(21,88,201,0.15)] flex flex-col justify-between">
+<div class="absolute top-0 right-0 w-32 h-32 bg-primary-container/20 blur-2xl pointer-events-none rounded-full"></div>
+<div>
+<div class="flex items-center justify-between pb-space-xs border-b border-outline-variant/20 mb-space-sm">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-[#D4FF24] animate-ping"></span>
+<span class="font-label-mono-xs text-label-mono-xs uppercase text-[#D4FF24] tracking-wider font-semibold">Optimization Strategy</span>
+</div>
+<span class="font-label-mono-xs text-label-mono-xs px-2 py-0.5 rounded bg-primary-container/30 text-on-primary-container border border-primary/30">High Confidence</span>
+</div>
+<div class="flex flex-col sm:flex-row sm:items-baseline justify-between gap-2 mb-space-sm">
+<h4 class="font-headline-md text-[20px] text-on-surface font-semibold tracking-tight">
+                Swap 6 evening hours for lunch hours
+              </h4>
+<div class="flex items-center gap-1.5 px-2.5 py-1 rounded bg-[#D4FF24]/10 border border-[#D4FF24]/30 text-[#D4FF24] font-headline-md text-headline-md leading-none font-bold">
+                +₹756<span class="font-label-mono-xs text-label-mono-xs font-normal">/week</span>
+</div>
+</div>
+<!-- Before vs After Metrics Bar -->
+<div class="grid grid-cols-2 gap-space-sm bg-surface-container rounded-lg p-space-sm border border-outline-variant/20 mb-space-sm">
+<div class="flex flex-col">
+<span class="font-label-mono-xs text-label-mono-xs uppercase text-on-surface-variant">Before (Current)</span>
+<span class="font-headline-md text-[18px] text-on-surface mt-0.5">₹18,000 <span class="font-label-mono-xs text-label-mono-xs text-on-surface-variant">(₹212/hr)</span></span>
+</div>
+<div class="flex flex-col border-l border-outline-variant/30 pl-space-sm">
+<span class="font-label-mono-xs text-label-mono-xs uppercase text-[#D4FF24]">After Optimization</span>
+<span class="font-headline-md text-[18px] text-[#D4FF24] mt-0.5">₹18,756 <span class="font-label-mono-xs text-label-mono-xs text-[#D4FF24]/80">(₹221/hr)</span></span>
+</div>
+</div>
+<div class="flex items-start gap-2 bg-surface-container-high/60 rounded px-2.5 py-2 border border-outline-variant/20 text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px] text-error mt-0.5">info</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-snug">
+<strong class="text-on-surface font-semibold">Note:</strong> Check that lunch slots have enough orders to fill these hours.
+              </p>
+</div>
+</div>
+<div class="mt-space-sm flex items-center justify-end">
+<button class="btn-cobalt px-space-md py-1.5 rounded-lg bg-primary-container hover:bg-primary-container/80 text-on-primary font-body-sm text-body-sm font-medium transition-all shadow-md flex items-center gap-1.5" id="apply-recommendation-btn">
+<span>Preview in What-If Simulator</span>
+<span class="material-symbols-outlined text-[14px]">arrow_downward</span>
+</button>
+</div>
+</div>
+</div>
+<!-- 7. INTERACTIVE WHAT-IF SIMULATOR -->
+<div class="bg-surface-container-low rounded-xl border border-[#23262D] p-space-md lg:p-space-lg flex flex-col gap-space-md" id="simulator-section">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-xs pb-space-xs border-b border-outline-variant/20">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[#D4FF24] text-[20px]">science</span>
+<div>
+<h3 class="font-headline-md text-[20px] text-on-surface font-semibold tracking-tight">Interactive What-If Shift Simulator</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Toggle parameters to view immediate recalculations on your real rate above.</p>
+</div>
+</div>
+<button class="self-start sm:self-auto px-2.5 py-1 rounded bg-surface-container text-on-surface-variant hover:text-on-surface text-label-mono-xs font-label-mono-xs uppercase border border-outline-variant/30 transition-colors" id="reset-sim-btn">
+            Reset to Actuals
+          </button>
+</div>
+<!-- Toggles Grid -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-gutter">
+<!-- Toggle 1 -->
+<label class="whatif-card flex flex-col justify-between p-space-sm rounded-lg bg-surface-container border border-outline-variant/30 transition-all cursor-pointer select-none">
+<div class="flex items-start justify-between gap-2 mb-3">
+<span class="font-body-md text-body-md font-medium text-on-surface">Shift 6 hrs from Evening to Lunch</span>
+<div class="relative inline-flex items-center cursor-pointer">
+<input class="sr-only peer" id="sim-toggle-1" type="checkbox"/>
+<div class="w-11 h-6 bg-surface-container-highest peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-container peer-checked:shadow-[0_0_12px_rgba(21,88,201,0.6)]"></div>
+</div>
+</div>
+<div class="flex items-center justify-between text-label-mono-xs font-label-mono-xs border-t border-outline-variant/20 pt-2">
+<span class="text-on-surface-variant">Projected Yield Boost</span>
+<span class="text-[#D4FF24] font-semibold">+₹756 net</span>
+</div>
+</label>
+<!-- Toggle 2 -->
+<label class="whatif-card flex flex-col justify-between p-space-sm rounded-lg bg-surface-container border border-outline-variant/30 transition-all cursor-pointer select-none">
+<div class="flex items-start justify-between gap-2 mb-3">
+<span class="font-body-md text-body-md font-medium text-on-surface">Reduce Night idle waiting by 2 hrs</span>
+<div class="relative inline-flex items-center cursor-pointer">
+<input class="sr-only peer" id="sim-toggle-2" type="checkbox"/>
+<div class="w-11 h-6 bg-surface-container-highest peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-container peer-checked:shadow-[0_0_12px_rgba(21,88,201,0.6)]"></div>
+</div>
+</div>
+<div class="flex items-center justify-between text-label-mono-xs font-label-mono-xs border-t border-outline-variant/20 pt-2">
+<span class="text-on-surface-variant">Efficiency Correction</span>
+<span class="text-[#D4FF24] font-semibold">+₹5/hr rate</span>
+</div>
+</label>
+<!-- Toggle 3 -->
+<label class="whatif-card flex flex-col justify-between p-space-sm rounded-lg bg-surface-container border border-outline-variant/30 transition-all cursor-pointer select-none">
+<div class="flex items-start justify-between gap-2 mb-3">
+<span class="font-body-md text-body-md font-medium text-on-surface">Skip zero-incentive shifts</span>
+<div class="relative inline-flex items-center cursor-pointer">
+<input class="sr-only peer" id="sim-toggle-3" type="checkbox"/>
+<div class="w-11 h-6 bg-surface-container-highest peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-container peer-checked:shadow-[0_0_12px_rgba(21,88,201,0.6)]"></div>
+</div>
+</div>
+<div class="flex items-center justify-between text-label-mono-xs font-label-mono-xs border-t border-outline-variant/20 pt-2">
+<span class="text-on-surface-variant">Avoid Low Fuel Margin</span>
+<span class="text-[#D4FF24] font-semibold">+₹320 saved</span>
+</div>
+</label>
+</div>
+</div>
+<!-- 8. FOOTER LINK -->
+<div class="flex flex-col sm:flex-row items-center justify-between gap-space-sm pt-space-md border-t border-outline-variant/30 pb-space-lg">
+<div class="flex items-center gap-space-xs font-label-mono-xs text-label-mono-xs text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px] text-[#D4FF24]">verified</span>
+<span>PayoutLens Engine · All metrics verifiable offline</span>
+</div>
+<a class="group flex items-center gap-2 font-body-md text-body-md font-semibold text-primary hover:text-on-surface transition-colors" data-path="details" href="details.html">
+<span>See the full breakdown and statement ledger</span>
+<span class="material-symbols-outlined text-[18px] transform group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</a>
+</div>
+</div>
+</div>
+</div></main>
+<!-- 4. EXACT SHARED FOOTER -->
+<footer class="w-full mt-space-xl">
+<!-- Top band -->
+<div class="w-full bg-[#131313] relative overflow-hidden py-10 px-margin-sm lg:px-margin">
+<div class="absolute inset-0 bg-gradient-to-b from-[#1558C9]/15 to-[#0A0A0A]/15 pointer-events-none"></div>
+<div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-6 relative z-10">
+<h2 class="text-white text-[28px] font-headline-md font-semibold text-center sm:text-left leading-tight">
+        Know what your hour is really worth.
+      </h2>
+<a class="btn-cobalt px-6 py-3 rounded-lg bg-[#1558C9] hover:bg-[#1558C9]/90 text-white font-body-sm font-semibold tracking-wide shadow-lg transition-all flex items-center gap-2 whitespace-nowrap" href="add-payouts.html">
+<span>Try the demo →</span>
+</a>
+</div>
+</div>
+<!-- Thin 1px Acid Lime (#D4FF24) rule at 40% opacity -->
+<div class="w-full h-[1px] bg-[#D4FF24]/40"></div>
+<!-- Main footer on #0A0A0A background -->
+<div class="w-full bg-[#0A0A0A] py-12 px-margin-sm lg:px-margin">
+<div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+<!-- Left Column -->
+<div class="flex flex-col gap-2">
+<span class="font-headline-md text-[22px] font-bold text-white tracking-tight">PayoutLens</span>
+<p class="font-body-md text-[#D4FF24] text-[15px] font-medium">Gig financial truth</p>
+<p class="font-body-sm text-[13px] text-on-surface-variant mt-1">No login · No upload · Runs in your browser.</p>
+</div>
+<!-- Middle Column -->
+<div class="flex flex-col gap-2">
+<span class="font-label-mono-xs text-label-mono-xs uppercase text-on-surface tracking-wider font-semibold mb-1">Navigation</span>
+<div class="flex flex-col space-y-2 text-[14px]">
+<a class="text-on-surface-variant hover:text-white transition-colors" href="overview.html">Overview</a>
+<a class="text-on-surface-variant hover:text-white transition-colors" href="add-payouts.html">Add payouts</a>
+<a class="text-white font-semibold transition-colors" href="dashboard.html">Dashboard</a>
+<a class="text-on-surface-variant hover:text-white transition-colors" href="details.html">Details</a>
+<a class="text-on-surface-variant hover:text-white transition-colors" href="overview.html">How it works</a>
+</div>
+</div>
+<!-- Right Column -->
+<div class="flex flex-col gap-3">
+<span class="font-label-mono-xs text-label-mono-xs uppercase text-on-surface tracking-wider font-semibold">Tested with</span>
+<div class="flex flex-wrap items-center gap-2">
+<span class="px-2.5 py-1 rounded bg-[#201F1F] text-on-surface text-label-mono-xs border border-outline-variant/30">Swiggy</span>
+<span class="px-2.5 py-1 rounded bg-[#201F1F] text-on-surface text-label-mono-xs border border-outline-variant/30">Zomato</span>
+<span class="px-2.5 py-1 rounded bg-[#201F1F] text-on-surface text-label-mono-xs border border-outline-variant/30">Blinkit</span>
+</div>
+<p class="text-[12px] text-on-surface-variant">Sample payout messages only.</p>
+</div>
+</div>
+<!-- Bottom bar -->
+<div class="max-w-7xl mx-auto pt-6 border-t border-white/10 text-center">
+<p class="text-[12px] text-on-surface-variant font-body-sm">
+        © 2026 PayoutLens · Hackathon prototype · Figures are estimates, not tax or financial advice.
+      </p>
+</div>
+</div>
+</footer>
+<!-- INTERACTIVE SCRIPTS -->
+<script>
+  (function initPayoutLensDashboard() {
+    const isReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const canHover = window.matchMedia('(hover: hover)').matches;
+
+    // Elements
+    const heroRateCard = document.getElementById('hero-rate-card');
+    const heroRateCounter = document.getElementById('hourly-rate-counter');
+    const flipTarget = document.getElementById('rate-flip-target');
+    const dynamicSentence = document.getElementById('dynamic-summary-sentence');
+    const rateSublabel = document.getElementById('rate-sublabel');
+    const simBadge = document.getElementById('simulator-state-chip');
+    const cardNetFuel = document.getElementById('card-net-fuel');
+    const cardTakeHome = document.getElementById('card-take-home');
+    const cardActiveHours = document.getElementById('card-active-hours');
+    const heroImg = document.getElementById('hero-img');
+    const heroViewport = document.getElementById('hero-viewport');
+    const emptyStateCard = document.getElementById('empty-state-card');
+    const dashboardDataZone = document.getElementById('dashboard-data-zone');
+    const simToggles = [
+      document.getElementById('sim-toggle-1'),
+      document.getElementById('sim-toggle-2'),
+      document.getElementById('sim-toggle-3')
+    ];
+    const resetSimBtn = document.getElementById('reset-sim-btn');
+    const applyRecBtn = document.getElementById('apply-recommendation-btn');
+
+    // Baseline Data (exact match)
+    const BASE_NET = 18000;
+    const BASE_HOURS = 85.0;
+    const BASE_RATE = Math.round(BASE_NET / BASE_HOURS); // 212
+
+    // Check URL for empty state (?empty=1)
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('empty') === '1') {
+      if (dashboardDataZone) dashboardDataZone.classList.add('hidden');
+      if (emptyStateCard) {
+        emptyStateCard.classList.remove('hidden');
+        emptyStateCard.classList.add('flex');
+      }
+      if (heroRateCounter) heroRateCounter.textContent = '₹—';
+      if (dynamicSentence) dynamicSentence.textContent = 'Statements awaiting upload. Connect files or paste weekly summaries to uncover your true hourly payout.';
+      return;
+    }
+
+    // 1. Hero entrance and Parallax (only if motion preferred)
+    if (!isReducedMotion && heroImg) {
+      heroImg.style.transform = 'scale(1.05)';
+      setTimeout(() => {
+        heroImg.style.transition = 'transform 1.2s cubic-bezier(0.16, 1, 0.3, 1)';
+        heroImg.style.transform = 'scale(1)';
+      }, 50);
+
+      window.addEventListener('scroll', () => {
+        const scrolled = window.scrollY;
+        if (scrolled < 500) {
+          heroImg.style.transform = `translateY(${scrolled * 0.3}px) scale(1)`;
+        }
+      }, { passive: true });
+    }
+
+    // 2. Count-up for Hero Hourly Rate Card
+    function animateCounter(targetValue, duration = 1000) {
+      if (isReducedMotion) {
+        heroRateCounter.textContent = '₹' + targetValue;
+        return;
+      }
+      const start = 0;
+      const startTime = performance.now();
+
+      function update(now) {
+        const elapsed = now - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        const easeVal = 1 - (1 - progress) * (1 - progress);
+        const current = Math.floor(start + (targetValue - start) * easeVal);
+        heroRateCounter.textContent = '₹' + current;
+        if (progress < 1) {
+          requestAnimationFrame(update);
+        } else {
+          heroRateCounter.textContent = '₹' + targetValue;
+        }
+      }
+      requestAnimationFrame(update);
+    }
+
+    if (!isReducedMotion) {
+      animateCounter(BASE_RATE, 1000);
+    } else {
+      heroRateCounter.textContent = '₹' + BASE_RATE;
+    }
+
+    // 3. Stagger & Mouse tracking Spotlight for Cards
+    const interactiveCards = document.querySelectorAll('.interactive-card');
+    interactiveCards.forEach((card, index) => {
+      if (!isReducedMotion) {
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(12px)';
+        setTimeout(() => {
+          card.style.transition = 'opacity 600ms cubic-bezier(0.16, 1, 0.3, 1), transform 600ms cubic-bezier(0.16, 1, 0.3, 1)';
+          card.style.opacity = '1';
+          card.style.transform = 'translateY(0px)';
+        }, 120 + index * 80);
+      }
+
+      if (canHover) {
+        const spotlight = card.querySelector('.card-radial-spotlight');
+        card.addEventListener('mousemove', (e) => {
+          const rect = card.getBoundingClientRect();
+          const x = e.clientX - rect.left;
+          const y = e.clientY - rect.top;
+          if (spotlight) {
+            spotlight.style.background = `radial-gradient(circle 220px at ${x}px ${y}px, rgba(21, 88, 201, 0.22), transparent 75%)`;
+          }
+        });
+      }
+    });
+
+    // 4. Breakdown Chart Animated Bars Reveal
+    const animatedBars = document.querySelectorAll('.chart-animated-bar');
+    function triggerBarAnimations() {
+      animatedBars.forEach((bar) => {
+        const target = bar.getAttribute('data-target-width');
+        bar.style.transition = isReducedMotion ? 'none' : 'width 900ms cubic-bezier(0.16, 1, 0.3, 1)';
+        bar.style.width = target;
+      });
+    }
+
+    if (!isReducedMotion && 'IntersectionObserver' in window) {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            triggerBarAnimations();
+            observer.disconnect();
+          }
+        });
+      }, { threshold: 0.1 });
+      const firstBar = document.querySelector('.chart-animated-bar');
+      if (firstBar) observer.observe(firstBar);
+    } else {
+      triggerBarAnimations();
+    }
+
+    // 7. Interactive What-If Simulator Logic
+    function recalculateProjection() {
+      let projectedNet = BASE_NET;
+      let projectedHours = BASE_HOURS;
+      let changesActive = false;
+
+      // Toggle 1: Shift 6 hrs from Evening (142) to Lunch (268) => + (268 - 142)*6 = +756
+      if (simToggles[0] && simToggles[0].checked) {
+        projectedNet += 756;
+        changesActive = true;
+      }
+
+      // Toggle 2: Reduce Night idle waiting by 2 hrs => hours - 2
+      if (simToggles[1] && simToggles[1].checked) {
+        projectedHours -= 2.0;
+        changesActive = true;
+      }
+
+      // Toggle 3: Skip zero-incentive shifts => petrol saved + ₹320, reduced hours by 3
+      if (simToggles[2] && simToggles[2].checked) {
+        projectedNet += 320;
+        projectedHours -= 3.0;
+        changesActive = true;
+      }
+
+      const calculatedRate = Math.round(projectedNet / projectedHours);
+
+      if (!isReducedMotion && flipTarget) {
+        flipTarget.style.transition = 'transform 250ms ease-in, opacity 250ms ease';
+        flipTarget.style.transform = 'rotateY(90deg)';
+        setTimeout(() => {
+          heroRateCounter.textContent = '₹' + calculatedRate;
+          cardNetFuel.textContent = '₹' + projectedNet.toLocaleString('en-IN');
+          cardActiveHours.textContent = projectedHours.toFixed(1) + ' hrs';
+          
+          if (changesActive) {
+            simBadge.classList.remove('hidden');
+            rateSublabel.innerHTML = `<span class="material-symbols-outlined text-[12px] text-[#D4FF24]">model_training</span> Projected: ${projectedHours.toFixed(1)} hrs with simulated optimizations`;
+            dynamicSentence.innerHTML = `Projected earnings: <strong class="text-on-surface font-semibold">₹${projectedNet.toLocaleString('en-IN')}</strong>. Net yield lifts to <strong class="text-[#D4FF24] font-semibold underline decoration-[#D4FF24]/40 underline-offset-4">₹${calculatedRate} an hour</strong> (+₹${calculatedRate - BASE_RATE}/hr advantage).`;
+          } else {
+            simBadge.classList.add('hidden');
+            rateSublabel.innerHTML = `<span class="material-symbols-outlined text-[12px] text-outline">tune</span> After fuel and platform fees, across 85.0 verified hours`;
+            dynamicSentence.innerHTML = `You earned <strong class="text-on-surface font-semibold">₹18,000</strong> this week. After fuel, that's <strong class="text-[#D4FF24] font-semibold underline decoration-[#D4FF24]/40 underline-offset-4">₹212 an hour</strong>.`;
+          }
+
+          flipTarget.style.transition = 'transform 300ms ease-out, opacity 300ms ease';
+          flipTarget.style.transform = 'rotateY(0deg)';
+        }, 250);
+      } else {
+        heroRateCounter.textContent = '₹' + calculatedRate;
+        cardNetFuel.textContent = '₹' + projectedNet.toLocaleString('en-IN');
+        cardActiveHours.textContent = projectedHours.toFixed(1) + ' hrs';
+        if (changesActive) {
+          simBadge.classList.remove('hidden');
+          rateSublabel.innerHTML = `<span class="material-symbols-outlined text-[12px] text-[#D4FF24]">model_training</span> Projected: ${projectedHours.toFixed(1)} hrs with simulated optimizations`;
+          dynamicSentence.innerHTML = `Projected earnings: <strong class="text-on-surface font-semibold">₹${projectedNet.toLocaleString('en-IN')}</strong>. Net yield lifts to <strong class="text-[#D4FF24] font-semibold underline decoration-[#D4FF24]/40 underline-offset-4">₹${calculatedRate} an hour</strong>.`;
+        } else {
+          simBadge.classList.add('hidden');
+          rateSublabel.innerHTML = `<span class="material-symbols-outlined text-[12px] text-outline">tune</span> After fuel and platform fees, across 85.0 verified hours`;
+          dynamicSentence.innerHTML = `You earned <strong class="text-on-surface font-semibold">₹18,000</strong> this week. After fuel, that's <strong class="text-[#D4FF24] font-semibold underline decoration-[#D4FF24]/40 underline-offset-4">₹212 an hour</strong>.`;
+        }
+      }
+    }
+
+    simToggles.forEach(toggle => {
+      if (toggle) toggle.addEventListener('change', recalculateProjection);
+    });
+
+    if (resetSimBtn) {
+      resetSimBtn.addEventListener('click', () => {
+        simToggles.forEach(toggle => { if (toggle) toggle.checked = false; });
+        recalculateProjection();
+      });
+    }
+
+    if (applyRecBtn) {
+      applyRecBtn.addEventListener('click', () => {
+        const toggle1 = simToggles[0];
+        if (toggle1) {
+          toggle1.checked = true;
+          recalculateProjection();
+          document.getElementById('simulator-section').scrollIntoView({ behavior: 'smooth' });
+        }
+      });
+    }
+
+  })();
+</script></body></html>

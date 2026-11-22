@@ -1,0 +1,1504 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_standard" name="shell-type"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>
+  @layer base {
+    html, body {
+      margin: 0;
+      padding: 0;
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    }
+    body {
+      overscroll-behavior: none;
+    }
+    main > :first-child {
+      margin-top: 0 !important;
+    }
+    main > :last-child {
+      margin-bottom: 0 !important;
+    }
+  }
+  ::-webkit-scrollbar {
+    display: none;
+  }
+  
+  /* Universal Focus-Visible Rule */
+  :focus-visible,
+  a:focus-visible,
+  button:focus-visible,
+  input:focus-visible,
+  select:focus-visible,
+  [tabindex]:focus-visible {
+    outline: 2px solid #D4FF24 !important;
+    outline-offset: 3px !important;
+    box-shadow: none !important;
+  }
+
+  .font-mono-numbers {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace !important;
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: 'tnum';
+  }
+
+  /* Nav Links center growth hover */
+  .nav-link {
+    position: relative;
+    color: #FFFFFF;
+    transition: color 200ms ease;
+    cursor: pointer;
+  }
+  .nav-link:hover {
+    color: #1558C9;
+  }
+  .nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 2px;
+    background-color: #1558C9;
+    transition: width 200ms ease;
+  }
+  .nav-link:hover::after {
+    width: 100%;
+  }
+  .nav-link.nav-active {
+    color: #FFFFFF;
+  }
+  .nav-link.nav-active::after {
+    width: 100%;
+    background-color: #1558C9;
+  }
+
+  /* Buttons hover & active motion */
+  .btn-interactive {
+    cursor: pointer;
+    transition: transform 200ms ease, box-shadow 200ms ease, border-color 200ms ease, background-color 200ms ease;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .btn-interactive:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(21, 88, 201, 0.35);
+    }
+  }
+  .btn-interactive:active {
+    transform: scale(0.98);
+  }
+
+  /* Table styling */
+  .table-data-row {
+    height: 56px;
+    cursor: pointer;
+    transition: background-color 150ms ease, border-left-color 150ms ease, opacity 200ms ease;
+    border-left: 1px solid transparent;
+    outline: none;
+  }
+  .table-data-row:hover {
+    background-color: #131313 !important;
+    border-left-color: #1558C9 !important;
+  }
+  .table-data-row.is-expanded {
+    background-color: #16171B !important;
+    border-left-color: #1558C9 !important;
+  }
+  .table-data-row.row-dimmed {
+    opacity: 0.6 !important;
+  }
+  .table-drawer {
+    transition: max-height 250ms cubic-bezier(0.16, 1, 0.3, 1), opacity 200ms ease;
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+  }
+  .table-drawer.open {
+    max-height: 140px;
+    opacity: 1;
+  }
+  .chevron-icon {
+    transition: transform 250ms ease;
+    display: inline-block;
+  }
+  .is-expanded .chevron-icon {
+    transform: rotate(180deg);
+  }
+
+  /* Table Header hover & sort indicator */
+  .th-sortable {
+    cursor: pointer;
+    transition: color 150ms ease;
+    user-select: none;
+  }
+  .th-sortable:hover {
+    color: #FFFFFF !important;
+  }
+  .th-sortable:hover .sort-icon {
+    opacity: 1;
+    color: #FFFFFF;
+  }
+  .sort-icon {
+    opacity: 0;
+    transition: opacity 150ms ease;
+    font-size: 14px;
+    vertical-align: middle;
+    margin-left: 2px;
+  }
+
+  /* Inputs & Dropdowns */
+  .form-control-lens {
+    border-color: #23262D;
+    transition: border-color 150ms ease, box-shadow 150ms ease;
+  }
+  .form-control-lens:hover {
+    border-color: #3A4150 !important;
+  }
+  .form-control-lens:focus {
+    border-color: #1558C9 !important;
+    box-shadow: 0 0 0 2px #1558C9 !important;
+    outline-offset: 3px !important;
+  }
+
+  /* Review Cards Hover */
+  .review-card {
+    transition: transform 250ms ease, border-color 250ms ease, box-shadow 250ms ease;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .review-card:hover {
+      transform: translateY(-4px);
+      border-color: #1558C9 !important;
+      box-shadow: 0 10px 25px -5px rgba(21, 88, 201, 0.2);
+    }
+  }
+
+  /* 3D Chart Styling */
+  .trend-3d-wrapper {
+    perspective: 1200px;
+  }
+  .trend-3d-card {
+    transform-style: preserve-3d;
+    transition: transform 400ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 250ms ease;
+    will-change: transform;
+  }
+  .trend-layer-back {
+    transform: translateZ(-10px);
+  }
+  .trend-layer-grid {
+    transform: translateZ(0px);
+  }
+  .trend-layer-line {
+    transform: translateZ(20px);
+  }
+  .trend-layer-tooltips {
+    transform: translateZ(30px);
+  }
+
+  /* Chart points hover & selection */
+  .chart-pt {
+    cursor: pointer;
+    transition: r 200ms ease, opacity 250ms ease, filter 200ms ease;
+    transform-origin: center;
+  }
+  .point-group:hover .chart-pt {
+    r: 12 !important;
+    filter: drop-shadow(0 0 12px rgba(21, 88, 201, 0.8)) !important;
+  }
+  .chart-dimmed {
+    opacity: 0.4 !important;
+  }
+  .chart-selected {
+    r: 12 !important;
+    filter: drop-shadow(0 0 12px rgba(212, 255, 36, 0.9)) !important;
+  }
+
+  /* Tap flash for touch devices */
+  @media (hover: none) and (pointer: coarse) {
+    .table-data-row:active {
+      background-color: #1a1a1a !important;
+      transition: background-color 150ms ease;
+    }
+    .trend-3d-card {
+      transform: none !important;
+    }
+  }
+
+  /* Reduced Motion preferences */
+  @media (prefers-reduced-motion: reduce) {
+    .btn-interactive,
+    .review-card,
+    .trend-3d-card,
+    .chart-pt,
+    .chevron-icon,
+    .table-drawer,
+    .nav-link::after {
+      transition: none !important;
+      transform: none !important;
+      animation: none !important;
+    }
+  }
+
+  @media print {
+    body * {
+      visibility: hidden !important;
+    }
+    #printable-monthly-statement, #printable-monthly-statement * {
+      visibility: visible !important;
+    }
+    #printable-monthly-statement {
+      position: absolute !important;
+      left: 0 !important;
+      top: 0 !important;
+      width: 100% !important;
+      margin: 0 !important;
+      padding: 24px !important;
+      background: #ffffff !important;
+      color: #000000 !important;
+      border: 1px solid #000000 !important;
+      page-break-inside: avoid !important;
+      box-shadow: none !important;
+    }
+    #printable-monthly-statement .print-hide {
+      display: none !important;
+    }
+    #printable-monthly-statement span,
+    #printable-monthly-statement p,
+    #printable-monthly-statement h2,
+    #printable-monthly-statement h3 {
+      color: #000000 !important;
+    }
+    #printable-monthly-statement [class*="bg-"] {
+      background: transparent !important;
+    }
+    #printable-monthly-statement [class*="border-"] {
+      border-color: #cccccc !important;
+    }
+  }
+</style><script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{fontFamily:{sans:['system-ui','-apple-system','"Segoe UI"','Roboto','"Helvetica Neue"','Arial','sans-serif'],mono:['ui-monospace','SFMono-Regular','Menlo','Monaco','Consolas','"Liberation Mono"','"Courier New"','monospace']},colors:{"outline-variant":"#434653","on-background":"#e5e2e1","on-surface":"#e5e2e1","surface-container-low":"#1c1b1b","secondary":"#f4ffc7","on-tertiary":"#2e3037","on-error-container":"#ffdad6","on-secondary-container":"#556800","on-tertiary-container":"#d8d8e2","surface":"#131313","surface-bright":"#3a3939","primary-fixed-dim":"#b1c5ff","on-secondary-fixed":"#171e00","on-secondary":"#2a3500","surface-tint":"#b1c5ff","primary-container":"#1558c9","on-primary":"#002c71","primary":"#b1c5ff","tertiary-fixed":"#e2e2eb","on-surface-variant":"#9AA3B2","on-primary-container":"#ccd8ff","secondary-fixed":"#D4FF24","background":"#131313","error-container":"#93000a","inverse-on-surface":"#313030","secondary-container":"#c3ed00","on-primary-fixed":"#001946","error":"#ffb4ab","tertiary":"#c5c6cf","primary-fixed":"#dae2ff","on-error":"#690005","surface-container-highest":"#353534","surface-variant":"#353534","on-secondary-fixed-variant":"#3e4c00","on-tertiary-fixed":"#191b22","on-tertiary-fixed-variant":"#45464e","on-primary-fixed-variant":"#00419f","surface-container-high":"#2a2a2a","inverse-surface":"#e5e2e1","secondary-fixed-dim":"#afd500","inverse-primary":"#1458c9","outline":"#8d909f","surface-dim":"#131313","surface-container":"#201f1f","tertiary-container":"#5d5e66","tertiary-fixed-dim":"#c5c6cf","surface-container-lowest":"#0e0e0e"},borderRadius:{"DEFAULT":"0.125rem","lg":"0.25rem","xl":"0.5rem","full":"0.75rem"},spacing:{"space-sm":"0.5rem","space-xl":"2.5rem","space-md":"1rem","margin":"2rem","gutter-sm":"0.75rem","gutter":"1.5rem","space-xs":"0.25rem","space-lg":"1.5rem","margin-sm":"1rem"}}}};</script></head><body class="bg-surface font-sans text-[#FFFFFF] antialiased selection:bg-[#D4FF24] selection:text-[#001946]"><header class="fixed top-0 left-0 right-0 z-50 bg-[#131313]/90 backdrop-blur-xl border-b border-[#23262D]"><div class="h-16 w-full px-margin flex items-center justify-between gap-space-md"><div class="flex items-center gap-space-md min-w-max"><a class="flex flex-col group" data-path="overview" href="overview.html"><span class="text-[20px] font-bold text-[#FFFFFF] tracking-normal flex items-center leading-none">Payout<span class="text-[#1558C9]">Lens</span></span><span class="text-[10px] text-[#9AA3B2] uppercase tracking-[0.08em] font-semibold mt-1">GIG FINANCIAL TRUTH</span></a></div><nav class="hidden lg:flex items-center gap-space-md"><a class="nav-link text-[14px] font-medium py-1" data-path="overview" href="overview.html">Overview</a><a class="nav-link text-[14px] font-medium py-1" data-path="add-payouts" href="add-payouts.html">Add payouts</a><a class="nav-link text-[14px] font-medium py-1" data-path="dashboard" href="dashboard.html">Dashboard</a><a aria-current="page" class="nav-link nav-active text-[14px] font-semibold py-1" data-path="details" href="details.html">Details</a><a class="nav-link text-[14px] font-medium py-1" data-path="how-it-works" href="overview.html">How it works</a></nav><div class="flex items-center gap-space-md"><div class="hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded bg-[#1C1B1B] border border-[#23262D] text-[#D4FF24] text-[11px] font-semibold tracking-[0.06em] uppercase"><span class="w-1.5 h-1.5 rounded-full bg-[#D4FF24] animate-pulse"></span><span>NO LOGIN · RUNS LOCALLY</span></div><a class="btn-interactive inline-flex items-center justify-center text-[14px] font-semibold tracking-[0.01em] uppercase px-3 py-1.5 rounded bg-[#1558C9] text-[#FFFFFF] border border-[#1558C9]/40" data-path="add-payouts" href="add-payouts.html">Try the demo</a><div aria-label="Guest session" class="w-9 h-9 rounded-full border border-[#23262D] bg-[#18191E] flex items-center justify-center text-[#9AA3B2]"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.8" viewbox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" stroke-linecap="round" stroke-linejoin="round"></path><circle cx="10" cy="7" r="4" stroke-linecap="round" stroke-linejoin="round"></circle></svg></div></div></div></header><main class="w-full pt-16 bg-surface min-h-[calc(100vh-16rem)]"><div class="flex flex-col w-full">
+<!-- 1. Hero Strip (payout-details-hero band) -->
+<section class="w-full px-margin pt-6">
+<div class="max-w-7xl mx-auto">
+<div class="relative w-full h-[200px] lg:h-[240px] rounded-[16px] overflow-hidden bg-[#0A0A0A] border border-[#23262D] flex flex-col lg:flex-row items-stretch shadow-2xl">
+<!-- Text Column (Desktop 45%, full on mobile) -->
+<div class="relative z-10 w-full lg:w-[45%] h-full flex flex-col justify-center px-6 lg:px-10 py-6 bg-gradient-to-r from-[#0A0A0A] via-[#0A0A0A]/90 to-transparent">
+<span class="text-[12px] font-semibold text-[#9AA3B2] uppercase tracking-[0.08em] mb-1.5 flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-[#D4FF24]"></span>
+              CHECK EVERY NUMBER
+            </span>
+<h1 class="text-[28px] lg:text-[36px] font-bold text-[#FFFFFF] tracking-[-0.02em] leading-[1.15] mb-2">
+              Every number, shown.
+            </h1>
+<p class="text-[15px] font-normal leading-[1.6] text-[#9AA3B2] max-w-md">
+              Each figure traces back to a payout row.
+            </p>
+</div>
+<!-- Photo Container (Desktop 55%, absolute background on mobile) -->
+<div class="absolute lg:relative inset-0 lg:inset-auto right-0 lg:w-[55%] h-full overflow-hidden select-none">
+<!-- Left fade gradient on photo -->
+<div class="absolute inset-0 z-10 pointer-events-none bg-gradient-to-r from-[#0A0A0A]/90 via-[#0A0A0A]/35 to-transparent"></div>
+<img alt="Delivery rider holding a smartphone with a blank screen, seen from behind." class="w-full h-full object-cover [object-position:65%_50%] lg:[object-position:60%_45%]" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB1nv6iakSRBq6098w-AtGe6m--LkR4Vr9GXsOv3p1tJnT4C1woKhWLXHWH9LH_PCNWFQt8OneiszfXX_wG1Ys-25RpU_V4doZSl4FcC6GSnbKrYdgBp-bGOlpzbAQHGDrhA8wXuJRNuTx59-Nbf9bPbIBDXKeCcUoTzzsEGWP0Hj38e407DCjAP6AiheRsneLCAuUrJd-6kgqw1Xttq0fo8BijQd-WFlDOaMWlBxx-f2rdTWnkzuPC"/>
+<!-- Photo caption pill bottom right -->
+<div class="absolute right-4 bottom-4 z-20 px-3 py-1 rounded bg-black/60 backdrop-blur-md border border-white/10 text-[#FFFFFF] text-[12px] font-normal leading-[1.5] pointer-events-none">
+              AI-generated illustration. Example rider.
+            </div>
+</div>
+</div>
+</div>
+</section>
+<!-- 2. Section: Payout breakdown (Simplified 8-column Traceable Table with Expandable Drawers) -->
+<section class="w-full px-margin pt-6 pb-8">
+<div class="max-w-7xl mx-auto flex flex-col gap-space-md">
+<!-- Section Header Block -->
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-2">
+<span class="text-[12px] font-semibold text-[#9AA3B2] uppercase tracking-[0.08em]">WEEK 42</span>
+</div>
+<h2 class="text-[28px] lg:text-[36px] font-bold text-[#FFFFFF] tracking-[-0.02em] leading-[1.15]">Payout breakdown</h2>
+<p class="text-[15px] font-normal leading-[1.6] text-[#9AA3B2]">9–15 Nov 2026 · Blinkit, Swiggy, Zomato.</p>
+<p class="text-[14px] font-normal text-[#9AA3B2]">Totals match the rows below.</p>
+</div>
+<!-- Formula Bar: Single line above table, 13px monospace, muted grey with key terms in white, thin bottom border, no box/icon -->
+<div class="w-full pb-3 border-b border-[#23262D] overflow-x-auto text-nowrap">
+<span class="font-mono text-[13px] font-normal leading-[1.5] text-[#9AA3B2]">
+<span class="text-[#FFFFFF]">Take-home</span> = gross + incentive − commission − penalty · 
+  <span class="text-[#FFFFFF]">After fuel</span> = take-home − fuel · 
+  <span class="text-[#FFFFFF]">Rate</span> = after fuel ÷ hours.
+</span>
+</div>
+<!-- Filters: Search box and two dropdowns on one line below formula, aligned to left edge -->
+<div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+<div class="relative w-full sm:w-80">
+<span class="material-symbols-outlined absolute left-3 top-2.5 text-[#9AA3B2] text-[18px]">search</span>
+<input class="form-control-lens w-full pl-9 pr-3 py-2 bg-[#121316] text-[#FFFFFF] text-[13px] font-normal rounded border placeholder:text-[#6B7280]" id="ledger-search" placeholder="Filter by platform, date, or slot..." type="text"/>
+</div>
+<div class="w-full sm:w-44">
+<select class="form-control-lens w-full px-3 py-2 bg-[#121316] text-[#FFFFFF] text-[13px] font-normal rounded border" id="platform-filter">
+<option value="ALL">All Platforms</option>
+<option value="Swiggy">Swiggy</option>
+<option value="Zomato">Zomato</option>
+<option value="Blinkit">Blinkit</option>
+</select>
+</div>
+<div class="w-full sm:w-48">
+<select class="form-control-lens w-full px-3 py-2 bg-[#121316] text-[#FFFFFF] text-[13px] font-normal rounded border" id="slot-filter">
+<option value="ALL">All Slots</option>
+<option value="Lunch">Lunch (12–3 PM)</option>
+<option value="Evening">Evening (4–8 PM)</option>
+<option value="Night">Night (8 PM–12 AM)</option>
+<option value="Peak">Fri-Sat Peak</option>
+</select>
+</div>
+</div>
+<!-- Data Table Container: 8 columns ONLY, Sticky Header, Height 56px rows, 16px cell padding -->
+<div class="w-full overflow-x-auto rounded-lg border border-[#23262D] bg-[#0E0E0E] mt-2">
+<table class="w-full text-left border-collapse min-w-[760px]" id="breakdown-table">
+<thead>
+<tr class="bg-[#121316] border-b border-[#23262D] text-[#9AA3B2] text-[11px] font-semibold uppercase tracking-[0.06em] sticky top-0 z-20 select-none">
+<th class="py-3 px-4 th-sortable">Date <span class="material-symbols-outlined sort-icon">straight</span></th>
+<th class="py-3 px-4 th-sortable">Platform <span class="material-symbols-outlined sort-icon">straight</span></th>
+<th class="py-3 px-4 text-right th-sortable">Gross <span class="material-symbols-outlined sort-icon">straight</span></th>
+<th class="py-3 px-4 text-right th-sortable">Penalty <span class="material-symbols-outlined sort-icon">straight</span></th>
+<th class="py-3 px-4 text-right th-sortable">After fuel <span class="material-symbols-outlined sort-icon">straight</span></th>
+<th class="py-3 px-4 text-right th-sortable">Hours <span class="material-symbols-outlined sort-icon">straight</span></th>
+<th class="py-3 px-4 text-right th-sortable">Rate <span class="material-symbols-outlined sort-icon">straight</span></th>
+<th class="py-3 px-4 text-center">Flag</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-[#23262D]/70" id="table-body">
+<!-- Row 1 -->
+<tr class="table-data-row" data-platform="Blinkit" data-row-id="row-1" data-slot="Lunch" role="button" tabindex="0">
+<td class="py-0 px-4 align-middle">
+<div class="flex items-center gap-2">
+<span class="chevron-icon text-[#9AA3B2] material-symbols-outlined text-[16px]">chevron_right</span>
+<div>
+<div class="text-[14px] font-medium leading-[1.4] text-[#FFFFFF]">09 Nov</div>
+<div class="text-[12px] font-normal text-[#9AA3B2] leading-tight">Lunch (12–3 PM)</div>
+</div>
+</div>
+</td>
+<td class="py-0 px-4 align-middle text-[14px] font-medium leading-[1.4] text-[#FFFFFF]">
+<span class="inline-flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-[#c3ed00]"></span> Blinkit
+</span>
+</td>
+<td class="py-0 px-4 align-middle text-right font-mono-numbers text-[15px] font-semibold text-[#FFFFFF]">₹2,200</td>
+<td class="py-0 px-4 align-middle text-right font-mono-numbers text-[15px] font-semibold text-[#FFFFFF]">₹0</td>
+<td class="py-0 px-4 align-middle text-right font-mono-numbers text-[15px] font-semibold text-[#D4FF24]">₹1,840</td>
+<td class="py-0 px-4 align-middle text-right font-mono-numbers text-[15px] font-semibold text-[#FFFFFF]">7.0h</td>
+<td class="py-0 px-4 align-middle text-right font-mono-numbers text-[15px] font-semibold text-[#D4FF24]">₹263/hr</td>
+<td class="py-0 px-4 align-middle text-center">
+<span class="inline-block w-1.5 h-1.5 rounded-full bg-[#6B7280]"></span>
+</td>
+</tr>
+<tr class="drawer-container bg-[#0B0C0E]" id="drawer-row-1">
+<td class="p-0 border-b border-[#23262D]" colspan="8">
+<div class="table-drawer px-4 py-0" id="drawer-inner-row-1">
+<div class="py-3 border-t border-[#23262D]/60 flex flex-col md:flex-row md:items-center justify-between gap-2 font-mono text-[13px] font-normal leading-[1.6] text-[#9AA3B2]">
+<div class="flex flex-wrap items-center gap-x-3 gap-y-1">
+<span>Comm: <strong class="text-[#FFFFFF] font-semibold">₹200</strong></span>
+<span>·</span>
+<span>Incentive: <strong class="text-[#FFFFFF] font-semibold">₹0</strong></span>
+<span>·</span>
+<span>Penalty: <strong class="text-[#FFFFFF] font-semibold">₹0</strong></span>
+<span>·</span>
+<span>Take-home: <strong class="text-[#FFFFFF] font-semibold">₹2,000</strong></span>
+<span>·</span>
+<span>Fuel: <strong class="text-[#FFFFFF] font-semibold">₹160</strong></span>
+<span>·</span>
+<span>After fuel: <strong class="text-[#D4FF24] font-semibold">₹1,840</strong></span>
+<span>·</span>
+<span>Hours: <strong class="text-[#FFFFFF] font-semibold">7.0 hrs</strong></span>
+</div>
+<div class="text-[#9AA3B2] bg-[#121316] px-3 py-1 rounded border border-[#23262D]">
+<span class="text-[#FFFFFF]">₹2,200</span> − <span class="text-[#FFFFFF]">₹200</span> + <span class="text-[#FFFFFF]">₹0</span> − <span class="text-[#FFFFFF]">₹0</span> = <span class="text-[#FFFFFF]">₹2,000</span> take-home · <span class="text-[#FFFFFF]">₹2,000</span> − <span class="text-[#FFFFFF]">₹160</span> fuel = <span class="text-[#D4FF24]">₹1,840</span> after fuel · <span class="text-[#D4FF24]">₹1,840</span> ÷ <span class="text-[#FFFFFF]">7.0 hrs</span> = <span class="text-[#D4FF24]">₹263/hr</span>
+</div>
+</div>
+</div>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="table-data-row" data-platform="Swiggy" data-row-id="row-2" data-slot="Evening" role="button" tabindex="0">
+<td class="py-0 px-4 align-middle">
+<div class="flex items-center gap-2">
+<span class="chevron-icon text-[#9AA3B2] material-symbols-outlined text-[16px]">chevron_right</span>
+<div>
+<div class="text-[14px] font-medium leading-[1.4] text-[#FFFFFF]">10 Nov</div>
+<div class="text-[12px] font-normal text-[#9AA3B2] leading-tight">Evening (4–8 PM)</div>
+</div>
+</div>
+</td>
+<td class="py-0 px-4 align-middle text-[14px] font-medium leading-[1.4] text-[#FFFFFF]">
+<span class="inline-flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-[#FC8019]"></span> Swiggy
+</span>
+</td>
+<td class="py-0 px-4 align-middle text-right font-mono-numbers text-[15px] font-semibold text-[#FFFFFF]">₹2,400</td>
+<td class="py-0 px-4 align-middle text-right font-mono-numbers text-[15px] font-semibold text-[#FFFFFF]">₹0</td>
+<td class="py-0 px-4 align-middle text-right font-mono-numbers text-[15px] font-semibold text-[#D4FF24]">₹1,980</td>
+<td class="py-0 px-4 align-middle text-right font-mono-numbers text-[15px] font-semibold text-[#FFFFFF]">12.0h</td>
+<td class="py-0 px-4 align-middle text-right font-mono-numbers text-[15px] font-semibold text-[#D4FF24]">₹165/hr</td>
+<td class="py-0 px-4 align-middle text-center">
+<span class="inline-block w-1.5 h-1.5 rounded-full bg-[#6B7280]"></span>
+</td>
+</tr>
+<tr class="drawer-container bg-[#0B0C0E]" id="drawer-row-2">
+<td class="p-0 border-b border-[#23262D]" colspan="8">
+<div class="table-drawer px-4 py-0" id="drawer-inner-row-2">
+<div class="py-3 border-t border-[#23262D]/60 flex flex-col md:flex-row md:items-center justify-between gap-2 font-mono text-[13px] font-normal leading-[1.6] text-[#9AA3B2]">
+<div class="flex flex-wrap items-center gap-x-3 gap-y-1">
+<span>Comm: <strong class="text-[#FFFFFF] font-semibold">₹240</strong></span>
+<span>·</span>
+<span>Incentive: <strong class="text-[#FFFFFF] font-semibold">₹0</strong></span>
+<span>·</span>
+<span>Penalty: <strong class="text-[#FFFFFF] font-semibold">₹0</strong></span>
+<span>·</span>
+<span>Take-home: <strong class="text-[#FFFFFF] font-semibold">₹2,160</strong></span>
+<span>·</span>
+<span>Fuel: <strong class="text-[#FFFFFF] font-semibold">₹180</strong></span>
+<span>·</span>
+<span>After fuel: <strong class="text-[#D4FF24] font-semibold">₹1,980</strong></span>
+<span>·</span>
+<span>Hours: <strong class="text-[#FFFFFF] font-semibold">12.0 hrs</strong></span>
+</div>
+<div class="text-[#9AA3B2] bg-[#121316] px-3 py-1 rounded border border-[#23262D]">
+<span class="text-[#FFFFFF]">₹2,400</span> − <span class="text-[#FFFFFF]">₹240</span> + <span class="text-[#FFFFFF]">₹0</span> − <span class="text-[#FFFFFF]">₹0</span> = <span class="text-[#FFFFFF]">₹2,160</span> take-home · <span class="text-[#FFFFFF]">₹2,160</span> − <span class="text-[#FFFFFF]">₹180</span> fuel = <span class="text-[#D4FF24]">₹1,980</span> after fuel · <span class="text-[#D4FF24]">₹1,980</span> ÷ <span class="text-[#FFFFFF]">12.0 hrs</span> = <span class="text-[#D4FF24]">₹165/hr</span>
+</div>
+</div>
+</div>
+</td>
+</tr>
+<!-- Row 3 (Flagged penalty: Review) -->
+<tr class="table-data-row bg-[#171313]/30" data-platform="Swiggy" data-row-id="row-3" data-slot="Night" role="button" tabindex="0">
+<td class="py-0 px-4 align-middle">
+<div class="flex items-center gap-2">
+<span class="chevron-icon text-[#9AA3B2] material-symbols-outlined text-[16px]">chevron_right</span>
+<div>
+<div class="text-[14px] font-medium leading-[1.4] text-[#FFFFFF]">11 Nov</div>
+<div class="text-[12px] font-normal text-[#9AA3B2] leading-tight">Night (8 PM–12 AM)</div>
+</div>
+</div>
+</td>
+<td class="py-0 px-4 align-middle text-[14px] font-medium leading-[1.4] text-[#FFFFFF]">
+<span class="inline-flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-[#FC8019]"></span> Swiggy
+</span>
+</td>
+<td class="py-0 px-4 align-middle text-right font-mono-numbers text-[15px] font-semibold text-[#FFFFFF]">₹3,100</td>
+<td class="py-0 px-4 align-middle text-right font-mono-numbers text-[15px] font-semibold text-[#F87171]">₹150</td>
+<td class="py-0 px-4 align-middle text-right font-mono-numbers text-[15px] font-semibold text-[#D4FF24]">₹2,430</td>
+<td class="py-0 px-4 align-middle text-right font-mono-numbers text-[15px] font-semibold text-[#FFFFFF]">11.0h</td>
+<td class="py-0 px-4 align-middle text-right font-mono-numbers text-[15px] font-semibold text-[#D4FF24]">₹221/hr</td>
+<td class="py-0 px-4 align-middle text-center">
+<span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-semibold tracking-[0.06em] uppercase bg-[#3D2E0A] text-[#FBBF24] border border-[#FBBF24]/30">
+  Review
+</span>
+</td>
+</tr>
+<tr class="drawer-container bg-[#0B0C0E]" id="drawer-row-3">
+<td class="p-0 border-b border-[#23262D]" colspan="8">
+<div class="table-drawer px-4 py-0" id="drawer-inner-row-3">
+<div class="py-3 border-t border-[#23262D]/60 flex flex-col md:flex-row md:items-center justify-between gap-2 font-mono text-[13px] font-normal leading-[1.6] text-[#9AA3B2]">
+<div class="flex flex-wrap items-center gap-x-3 gap-y-1">
+<span>Comm: <strong class="text-[#FFFFFF] font-semibold">₹300</strong></span>
+<span>·</span>
+<span>Incentive: <strong class="text-[#FFFFFF] font-semibold">₹0</strong></span>
+<span>·</span>
+<span>Penalty: <strong class="text-[#F87171] font-semibold">₹150</strong></span>
+<span>·</span>
+<span>Take-home: <strong class="text-[#FFFFFF] font-semibold">₹2,650</strong></span>
+<span>·</span>
+<span>Fuel: <strong class="text-[#FFFFFF] font-semibold">₹220</strong></span>
+<span>·</span>
+<span>After fuel: <strong class="text-[#D4FF24] font-semibold">₹2,430</strong></span>
+<span>·</span>
+<span>Hours: <strong class="text-[#FFFFFF] font-semibold">11.0 hrs</strong></span>
+</div>
+<div class="text-[#9AA3B2] bg-[#121316] px-3 py-1 rounded border border-[#23262D]">
+<span class="text-[#FFFFFF]">₹3,100</span> − <span class="text-[#FFFFFF]">₹300</span> + <span class="text-[#FFFFFF]">₹0</span> − <span class="text-[#F87171]">₹150</span> = <span class="text-[#FFFFFF]">₹2,650</span> take-home · <span class="text-[#FFFFFF]">₹2,650</span> − <span class="text-[#FFFFFF]">₹220</span> fuel = <span class="text-[#D4FF24]">₹2,430</span> after fuel · <span class="text-[#D4FF24]">₹2,430</span> ÷ <span class="text-[#FFFFFF]">11.0 hrs</span> = <span class="text-[#D4FF24]">₹221/hr</span>
+</div>
+</div>
+</div>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="table-data-row" data-platform="Zomato" data-row-id="row-4" data-slot="Lunch" role="button" tabindex="0">
+<td class="py-0 px-4 align-middle">
+<div class="flex items-center gap-2">
+<span class="chevron-icon text-[#9AA3B2] material-symbols-outlined text-[16px]">chevron_right</span>
+<div>
+<div class="text-[14px] font-medium leading-[1.4] text-[#FFFFFF]">12 Nov</div>
+<div class="text-[12px] font-normal text-[#9AA3B2] leading-tight">Lunch (12–3 PM)</div>
+</div>
+</div>
+</td>
+<td class="py-0 px-4 align-middle text-[14px] font-medium leading-[1.4] text-[#FFFFFF]">
+<span class="inline-flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-[#E23744]"></span> Zomato
+</span>
+</td>
+<td class="py-0 px-4 align-middle text-right font-mono-numbers text-[15px] font-semibold text-[#FFFFFF]">₹2,600</td>
+<td class="py-0 px-4 align-middle text-right font-mono-numbers text-[15px] font-semibold text-[#FFFFFF]">₹0</td>
+<td class="py-0 px-4 align-middle text-right font-mono-numbers text-[15px] font-semibold text-[#D4FF24]">₹2,160</td>
+<td class="py-0 px-4 align-middle text-right font-mono-numbers text-[15px] font-semibold text-[#FFFFFF]">8.0h</td>
+<td class="py-0 px-4 align-middle text-right font-mono-numbers text-[15px] font-semibold text-[#D4FF24]">₹270/hr</td>
+<td class="py-0 px-4 align-middle text-center">
+<span class="inline-block w-1.5 h-1.5 rounded-full bg-[#6B7280]"></span>
+</td>
+</tr>
+<tr class="drawer-container bg-[#0B0C0E]" id="drawer-row-4">
+<td class="p-0 border-b border-[#23262D]" colspan="8">
+<div class="table-drawer px-4 py-0" id="drawer-inner-row-4">
+<div class="py-3 border-t border-[#23262D]/60 flex flex-col md:flex-row md:items-center justify-between gap-2 font-mono text-[13px] font-normal leading-[1.6] text-[#9AA3B2]">
+<div class="flex flex-wrap items-center gap-x-3 gap-y-1">
+<span>Comm: <strong class="text-[#FFFFFF] font-semibold">₹250</strong></span>
+<span>·</span>
+<span>Incentive: <strong class="text-[#FFFFFF] font-semibold">₹0</strong></span>
+<span>·</span>
+<span>Penalty: <strong class="text-[#FFFFFF] font-semibold">₹0</strong></span>
+<span>·</span>
+<span>Take-home: <strong class="text-[#FFFFFF] font-semibold">₹2,350</strong></span>
+<span>·</span>
+<span>Fuel: <strong class="text-[#FFFFFF] font-semibold">₹190</strong></span>
+<span>·</span>
+<span>After fuel: <strong class="text-[#D4FF24] font-semibold">₹2,160</strong></span>
+<span>·</span>
+<span>Hours: <strong class="text-[#FFFFFF] font-semibold">8.0 hrs</strong></span>
+</div>
+<div class="text-[#9AA3B2] bg-[#121316] px-3 py-1 rounded border border-[#23262D]">
+<span class="text-[#FFFFFF]">₹2,600</span> − <span class="text-[#FFFFFF]">₹250</span> + <span class="text-[#FFFFFF]">₹0</span> − <span class="text-[#FFFFFF]">₹0</span> = <span class="text-[#FFFFFF]">₹2,350</span> take-home · <span class="text-[#FFFFFF]">₹2,350</span> − <span class="text-[#FFFFFF]">₹190</span> fuel = <span class="text-[#D4FF24]">₹2,160</span> after fuel · <span class="text-[#D4FF24]">₹2,160</span> ÷ <span class="text-[#FFFFFF]">8.0 hrs</span> = <span class="text-[#D4FF24]">₹270/hr</span>
+</div>
+</div>
+</div>
+</td>
+</tr>
+<!-- Row 5 -->
+<tr class="table-data-row" data-platform="Blinkit" data-row-id="row-5" data-slot="Evening" role="button" tabindex="0">
+<td class="py-0 px-4 align-middle">
+<div class="flex items-center gap-2">
+<span class="chevron-icon text-[#9AA3B2] material-symbols-outlined text-[16px]">chevron_right</span>
+<div>
+<div class="text-[14px] font-medium leading-[1.4] text-[#FFFFFF]">13 Nov</div>
+<div class="text-[12px] font-normal text-[#9AA3B2] leading-tight">Evening (4–8 PM)</div>
+</div>
+</div>
+</td>
+<td class="py-0 px-4 align-middle text-[14px] font-medium leading-[1.4] text-[#FFFFFF]">
+<span class="inline-flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-[#c3ed00]"></span> Blinkit
+</span>
+</td>
+<td class="py-0 px-4 align-middle text-right font-mono-numbers text-[15px] font-semibold text-[#FFFFFF]">₹2,800</td>
+<td class="py-0 px-4 align-middle text-right font-mono-numbers text-[15px] font-semibold text-[#FFFFFF]">₹0</td>
+<td class="py-0 px-4 align-middle text-right font-mono-numbers text-[15px] font-semibold text-[#D4FF24]">₹2,330</td>
+<td class="py-0 px-4 align-middle text-right font-mono-numbers text-[15px] font-semibold text-[#FFFFFF]">13.0h</td>
+<td class="py-0 px-4 align-middle text-right font-mono-numbers text-[15px] font-semibold text-[#D4FF24]">₹179/hr</td>
+<td class="py-0 px-4 align-middle text-center">
+<span class="inline-block w-1.5 h-1.5 rounded-full bg-[#6B7280]"></span>
+</td>
+</tr>
+<tr class="drawer-container bg-[#0B0C0E]" id="drawer-row-5">
+<td class="p-0 border-b border-[#23262D]" colspan="8">
+<div class="table-drawer px-4 py-0" id="drawer-inner-row-5">
+<div class="py-3 border-t border-[#23262D]/60 flex flex-col md:flex-row md:items-center justify-between gap-2 font-mono text-[13px] font-normal leading-[1.6] text-[#9AA3B2]">
+<div class="flex flex-wrap items-center gap-x-3 gap-y-1">
+<span>Comm: <strong class="text-[#FFFFFF] font-semibold">₹260</strong></span>
+<span>·</span>
+<span>Incentive: <strong class="text-[#FFFFFF] font-semibold">₹0</strong></span>
+<span>·</span>
+<span>Penalty: <strong class="text-[#FFFFFF] font-semibold">₹0</strong></span>
+<span>·</span>
+<span>Take-home: <strong class="text-[#FFFFFF] font-semibold">₹2,540</strong></span>
+<span>·</span>
+<span>Fuel: <strong class="text-[#FFFFFF] font-semibold">₹210</strong></span>
+<span>·</span>
+<span>After fuel: <strong class="text-[#D4FF24] font-semibold">₹2,330</strong></span>
+<span>·</span>
+<span>Hours: <strong class="text-[#FFFFFF] font-semibold">13.0 hrs</strong></span>
+</div>
+<div class="text-[#9AA3B2] bg-[#121316] px-3 py-1 rounded border border-[#23262D]">
+<span class="text-[#FFFFFF]">₹2,800</span> − <span class="text-[#FFFFFF]">₹260</span> + <span class="text-[#FFFFFF]">₹0</span> − <span class="text-[#FFFFFF]">₹0</span> = <span class="text-[#FFFFFF]">₹2,540</span> take-home · <span class="text-[#FFFFFF]">₹2,540</span> − <span class="text-[#FFFFFF]">₹210</span> fuel = <span class="text-[#D4FF24]">₹2,330</span> after fuel · <span class="text-[#D4FF24]">₹2,330</span> ÷ <span class="text-[#FFFFFF]">13.0 hrs</span> = <span class="text-[#D4FF24]">₹179/hr</span>
+</div>
+</div>
+</div>
+</td>
+</tr>
+<!-- Row 6 (Flagged penalty: Review) -->
+<tr class="table-data-row bg-[#171313]/30" data-platform="Zomato" data-row-id="row-6" data-slot="Night" role="button" tabindex="0">
+<td class="py-0 px-4 align-middle">
+<div class="flex items-center gap-2">
+<span class="chevron-icon text-[#9AA3B2] material-symbols-outlined text-[16px]">chevron_right</span>
+<div>
+<div class="text-[14px] font-medium leading-[1.4] text-[#FFFFFF]">14 Nov</div>
+<div class="text-[12px] font-normal text-[#9AA3B2] leading-tight">Night (8 PM–12 AM)</div>
+</div>
+</div>
+</td>
+<td class="py-0 px-4 align-middle text-[14px] font-medium leading-[1.4] text-[#FFFFFF]">
+<span class="inline-flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-[#E23744]"></span> Zomato
+</span>
+</td>
+<td class="py-0 px-4 align-middle text-right font-mono-numbers text-[15px] font-semibold text-[#FFFFFF]">₹4,200</td>
+<td class="py-0 px-4 align-middle text-right font-mono-numbers text-[15px] font-semibold text-[#F87171]">₹250</td>
+<td class="py-0 px-4 align-middle text-right font-mono-numbers text-[15px] font-semibold text-[#D4FF24]">₹3,260</td>
+<td class="py-0 px-4 align-middle text-right font-mono-numbers text-[15px] font-semibold text-[#FFFFFF]">16.0h</td>
+<td class="py-0 px-4 align-middle text-right font-mono-numbers text-[15px] font-semibold text-[#D4FF24]">₹204/hr</td>
+<td class="py-0 px-4 align-middle text-center">
+<span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-semibold tracking-[0.06em] uppercase bg-[#3D2E0A] text-[#FBBF24] border border-[#FBBF24]/30">
+  Review
+</span>
+</td>
+</tr>
+<tr class="drawer-container bg-[#0B0C0E]" id="drawer-row-6">
+<td class="p-0 border-b border-[#23262D]" colspan="8">
+<div class="table-drawer px-4 py-0" id="drawer-inner-row-6">
+<div class="py-3 border-t border-[#23262D]/60 flex flex-col md:flex-row md:items-center justify-between gap-2 font-mono text-[13px] font-normal leading-[1.6] text-[#9AA3B2]">
+<div class="flex flex-wrap items-center gap-x-3 gap-y-1">
+<span>Comm: <strong class="text-[#FFFFFF] font-semibold">₹380</strong></span>
+<span>·</span>
+<span>Incentive: <strong class="text-[#FFFFFF] font-semibold">₹0</strong></span>
+<span>·</span>
+<span>Penalty: <strong class="text-[#F87171] font-semibold">₹250</strong></span>
+<span>·</span>
+<span>Take-home: <strong class="text-[#FFFFFF] font-semibold">₹3,570</strong></span>
+<span>·</span>
+<span>Fuel: <strong class="text-[#FFFFFF] font-semibold">₹310</strong></span>
+<span>·</span>
+<span>After fuel: <strong class="text-[#D4FF24] font-semibold">₹3,260</strong></span>
+<span>·</span>
+<span>Hours: <strong class="text-[#FFFFFF] font-semibold">16.0 hrs</strong></span>
+</div>
+<div class="text-[#9AA3B2] bg-[#121316] px-3 py-1 rounded border border-[#23262D]">
+<span class="text-[#FFFFFF]">₹4,200</span> − <span class="text-[#FFFFFF]">₹380</span> + <span class="text-[#FFFFFF]">₹0</span> − <span class="text-[#F87171]">₹250</span> = <span class="text-[#FFFFFF]">₹3,570</span> take-home · <span class="text-[#FFFFFF]">₹3,570</span> − <span class="text-[#FFFFFF]">₹310</span> fuel = <span class="text-[#D4FF24]">₹3,260</span> after fuel · <span class="text-[#D4FF24]">₹3,260</span> ÷ <span class="text-[#FFFFFF]">16.0 hrs</span> = <span class="text-[#D4FF24]">₹204/hr</span>
+</div>
+</div>
+</div>
+</td>
+</tr>
+<!-- Row 7 (Peak yield: Peak) -->
+<tr class="table-data-row" data-platform="Swiggy" data-row-id="row-7" data-slot="Peak" role="button" tabindex="0">
+<td class="py-0 px-4 align-middle">
+<div class="flex items-center gap-2">
+<span class="chevron-icon text-[#9AA3B2] material-symbols-outlined text-[16px]">chevron_right</span>
+<div>
+<div class="text-[14px] font-medium leading-[1.4] text-[#FFFFFF]">15 Nov</div>
+<div class="text-[12px] font-normal text-[#9AA3B2] leading-tight">Fri-Sat Peak</div>
+</div>
+</div>
+</td>
+<td class="py-0 px-4 align-middle text-[14px] font-medium leading-[1.4] text-[#FFFFFF]">
+<span class="inline-flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-[#FC8019]"></span> Swiggy
+</span>
+</td>
+<td class="py-0 px-4 align-middle text-right font-mono-numbers text-[15px] font-semibold text-[#FFFFFF]">₹4,700</td>
+<td class="py-0 px-4 align-middle text-right font-mono-numbers text-[15px] font-semibold text-[#FFFFFF]">₹0</td>
+<td class="py-0 px-4 align-middle text-right font-mono-numbers text-[15px] font-semibold text-[#D4FF24]">₹4,000</td>
+<td class="py-0 px-4 align-middle text-right font-mono-numbers text-[15px] font-semibold text-[#FFFFFF]">18.0h</td>
+<td class="py-0 px-4 align-middle text-right font-mono-numbers text-[15px] font-semibold text-[#D4FF24]">₹222/hr</td>
+<td class="py-0 px-4 align-middle text-center">
+<span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-semibold tracking-[0.06em] uppercase bg-[#D4FF24]/15 text-[#D4FF24] border border-[#D4FF24]/30">
+  Peak
+</span>
+</td>
+</tr>
+<tr class="drawer-container bg-[#0B0C0E]" id="drawer-row-7">
+<td class="p-0 border-b border-[#23262D]" colspan="8">
+<div class="table-drawer px-4 py-0" id="drawer-inner-row-7">
+<div class="py-3 border-t border-[#23262D]/60 flex flex-col md:flex-row md:items-center justify-between gap-2 font-mono text-[13px] font-normal leading-[1.6] text-[#9AA3B2]">
+<div class="flex flex-wrap items-center gap-x-3 gap-y-1">
+<span>Comm: <strong class="text-[#FFFFFF] font-semibold">₹370</strong></span>
+<span>·</span>
+<span>Incentive: <strong class="text-[#FFFFFF] font-semibold">₹0</strong></span>
+<span>·</span>
+<span>Penalty: <strong class="text-[#FFFFFF] font-semibold">₹0</strong></span>
+<span>·</span>
+<span>Take-home: <strong class="text-[#FFFFFF] font-semibold">₹4,330</strong></span>
+<span>·</span>
+<span>Fuel: <strong class="text-[#FFFFFF] font-semibold">₹330</strong></span>
+<span>·</span>
+<span>After fuel: <strong class="text-[#D4FF24] font-semibold">₹4,000</strong></span>
+<span>·</span>
+<span>Hours: <strong class="text-[#FFFFFF] font-semibold">18.0 hrs</strong></span>
+</div>
+<div class="text-[#9AA3B2] bg-[#121316] px-3 py-1 rounded border border-[#23262D]">
+<span class="text-[#FFFFFF]">₹4,700</span> − <span class="text-[#FFFFFF]">₹370</span> + <span class="text-[#FFFFFF]">₹0</span> − <span class="text-[#FFFFFF]">₹0</span> = <span class="text-[#FFFFFF]">₹4,330</span> take-home · <span class="text-[#FFFFFF]">₹4,330</span> − <span class="text-[#FFFFFF]">₹330</span> fuel = <span class="text-[#D4FF24]">₹4,000</span> after fuel · <span class="text-[#D4FF24]">₹4,000</span> ÷ <span class="text-[#FFFFFF]">18.0 hrs</span> = <span class="text-[#D4FF24]">₹222/hr</span>
+</div>
+</div>
+</div>
+</td>
+</tr>
+</tbody>
+<!-- Totals Row: Pinned at bottom of table -->
+<tfoot>
+<tr class="bg-[#121316] border-t-2 border-[#23262D]">
+<td class="py-4 px-4 uppercase tracking-[0.06em] text-[#9AA3B2] text-[13px] font-semibold" colspan="2">Week total</td>
+<td class="py-4 px-4 text-right font-mono-numbers text-[15px] font-semibold text-[#FFFFFF]">₹22,000</td>
+<td class="py-4 px-4 text-right font-mono-numbers text-[15px] font-semibold text-[#F87171]">₹400</td>
+<td class="py-4 px-4 text-right font-mono-numbers text-[15px] font-bold text-[#D4FF24]">₹18,000</td>
+<td class="py-4 px-4 text-right font-mono-numbers text-[15px] font-semibold text-[#FFFFFF]">85.0h</td>
+<td class="py-4 px-4 text-right font-mono-numbers text-[15px] font-bold text-[#D4FF24]">₹212/hr</td>
+<td class="py-4 px-4 text-center text-[#9AA3B2] text-[11px] font-normal">7 shifts</td>
+</tr>
+</tfoot>
+</table>
+</div>
+</div>
+</section>
+<!-- 3. Section: Needs review (Flagged Penalties) -->
+<section class="w-full px-margin pt-4">
+<div class="max-w-7xl mx-auto flex flex-col gap-space-md">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[#FFFFFF] text-[24px]">warning</span>
+<div>
+<h2 class="text-[24px] font-bold text-[#FFFFFF] tracking-[-0.01em] leading-[1.2]">Needs review.</h2>
+<p class="text-[15px] font-normal leading-[1.6] text-[#9AA3B2]">Penalties with no matched orders. These are questions to ask the platform, not proof of wrongdoing.</p>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-space-md">
+<!-- Card 1 -->
+<div class="review-card bg-[#121316] rounded-xl border border-[#23262D] p-space-md flex flex-col justify-between gap-space-md relative overflow-hidden group">
+<div class="radial-glow absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300" style="background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(21, 88, 201, 0.2), transparent 65%);"></div>
+<div class="flex flex-col gap-space-sm relative z-10">
+<div class="flex items-center justify-between">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-[#FC8019]/15 border border-[#FC8019]/30 text-[#FFFFFF] text-[12px] font-semibold uppercase tracking-[0.06em]">
+<span class="w-1.5 h-1.5 rounded-full bg-[#FC8019]"></span> Swiggy · 11 Nov
+</span>
+<span class="px-2 py-0.5 rounded bg-[#3D2E0A] text-[#FBBF24] font-mono text-[13px] font-bold border border-[#FBBF24]/30">
+<span class="text-[#F87171]">-₹150</span> PENALTY
+</span>
+</div>
+<div class="flex flex-col gap-1">
+<span class="text-[13px] text-[#9AA3B2]">Slot: Night (8 PM–12 AM) · Shift Total: ₹3,100</span>
+<p class="text-[15px] font-medium leading-[1.5] text-[#FFFFFF] mt-1">
+  “Ask Swiggy for the order details behind this ₹150 penalty on 11 Nov.”
+</p>
+<p class="text-[13px] text-[#9AA3B2]">
+  Logged as unassigned order timeout without merchant details attached.
+</p>
+</div>
+</div>
+<div class="flex items-center justify-between pt-2 border-t border-[#23262D] relative z-10">
+<span class="text-[11px] font-semibold tracking-[0.06em] uppercase text-[#9AA3B2]">QUESTION TEMPLATE 01</span>
+<button class="btn-copy btn-interactive px-3.5 py-1.5 rounded bg-[#18191E] border border-white/10 text-[#FFFFFF] text-[13px] font-semibold tracking-[0.01em] transition-all flex items-center gap-1.5 hover:border-[#1558C9]" onclick="copyPrompt(this, 'Ask Swiggy for the order details behind this ₹150 penalty on 11 Nov.')">
+<span class="material-symbols-outlined text-[14px]">content_copy</span>
+<span>Copy question</span>
+</button>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="review-card bg-[#121316] rounded-xl border border-[#23262D] p-space-md flex flex-col justify-between gap-space-md relative overflow-hidden group">
+<div class="radial-glow absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300" style="background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(21, 88, 201, 0.2), transparent 65%);"></div>
+<div class="flex flex-col gap-space-sm relative z-10">
+<div class="flex items-center justify-between">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-[#E23744]/15 border border-[#E23744]/30 text-[#FFFFFF] text-[12px] font-semibold uppercase tracking-[0.06em]">
+<span class="w-1.5 h-1.5 rounded-full bg-[#E23744]"></span> Zomato · 14 Nov
+</span>
+<span class="px-2 py-0.5 rounded bg-[#3D2E0A] text-[#FBBF24] font-mono text-[13px] font-bold border border-[#FBBF24]/30">
+<span class="text-[#F87171]">-₹250</span> PENALTY
+</span>
+</div>
+<div class="flex flex-col gap-1">
+<span class="text-[13px] text-[#9AA3B2]">Slot: Night (8 PM–12 AM) · Shift Total: ₹4,200</span>
+<p class="text-[15px] font-medium leading-[1.5] text-[#FFFFFF] mt-1">
+  “Ask Zomato for trip ID and reason regarding ₹250 late deduction on 14 Nov.”
+</p>
+<p class="text-[13px] text-[#9AA3B2]">
+  Reported delay corresponds to documented kitchen preparation wait time.
+</p>
+</div>
+</div>
+<div class="flex items-center justify-between pt-2 border-t border-[#23262D] relative z-10">
+<span class="text-[11px] font-semibold tracking-[0.06em] uppercase text-[#9AA3B2]">QUESTION TEMPLATE 02</span>
+<button class="btn-copy btn-interactive px-3.5 py-1.5 rounded bg-[#18191E] border border-white/10 text-[#FFFFFF] text-[13px] font-semibold tracking-[0.01em] transition-all flex items-center gap-1.5 hover:border-[#1558C9]" onclick="copyPrompt(this, 'Ask Zomato for trip ID and reason regarding ₹250 late deduction on 14 Nov.')">
+<span class="material-symbols-outlined text-[14px]">content_copy</span>
+<span>Copy question</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- 4. Section: Weekly trend (Interactive 3D Weekly Rate Chart + Accessible Fallback Table) -->
+<section class="w-full px-margin pt-space-xl">
+<div class="max-w-7xl mx-auto flex flex-col gap-space-md">
+<div>
+<span class="text-[12px] font-semibold uppercase text-[#9AA3B2] tracking-[0.08em]">Multi-Cycle Progression</span>
+<h2 class="text-[24px] font-bold text-[#FFFFFF] tracking-[-0.01em] leading-[1.2]">Weekly trend</h2>
+<p class="text-[15px] font-normal leading-[1.6] text-[#9AA3B2]">Consecutive multi-week progression of gross intake vs realistic after-fuel return.</p>
+</div>
+<!-- Interactive 3D Chart Card -->
+<div class="trend-3d-wrapper w-full">
+<div class="trend-3d-card bg-[#121316] border border-[#23262D] rounded-[16px] p-5 sm:p-7 relative overflow-hidden shadow-2xl flex flex-col gap-5" id="trend-3d-box">
+<!-- Soft radial light overlay following cursor -->
+<div class="radial-chart-light absolute inset-0 pointer-events-none opacity-0 transition-opacity duration-300" id="chart-glow-layer" style="background: radial-gradient(600px circle at var(--mx, 50%) var(--my, 50%), rgba(21, 88, 201, 0.16), transparent 70%);"></div>
+<!-- Card Header with Toggle -->
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 relative z-10">
+<div>
+<h3 class="text-[16px] font-semibold text-[#FFFFFF] leading-[1.4]">Your hourly rate, week by week.</h3>
+<p class="text-[13px] text-[#9AA3B2] mt-0.5">Hover or tap a point to see the arithmetic.</p>
+</div>
+<!-- Segmented Toggle: Rate vs After Fuel -->
+<div class="inline-flex items-center p-1 rounded-lg bg-[#0E0E0E] border border-[#23262D] self-start sm:self-auto" role="tablist">
+<button aria-selected="true" class="btn-interactive px-3.5 py-1.5 rounded text-[12px] font-semibold uppercase tracking-[0.02em] transition-all bg-[#1558C9] text-[#FFFFFF] shadow" id="btn-toggle-rate" onclick="setChartMetric('rate')" role="tab">
+  Rate
+</button>
+<button aria-selected="false" class="btn-interactive px-3.5 py-1.5 rounded text-[12px] font-semibold uppercase tracking-[0.02em] transition-all text-[#9AA3B2] hover:text-[#FFFFFF]" id="btn-toggle-afterfuel" onclick="setChartMetric('afterfuel')" role="tab">
+  After fuel
+</button>
+</div>
+</div>
+<!-- SVG Chart Area (Interactive layered 3D depth) -->
+<div aria-label="Interactive weekly rate chart" class="relative w-full h-[220px] lg:h-[280px] select-none" id="chart-viewport" onkeydown="handleChartKeydown(event)" role="region" tabindex="0">
+<svg class="w-full h-full overflow-visible" id="trend-svg" preserveaspectratio="none" viewbox="0 0 760 260">
+<defs>
+<lineargradient id="cobaltFillGrad" x1="0%" x2="0%" y1="0%" y2="100%">
+<stop offset="0%" stop-color="#1558c9" stop-opacity="0.35"></stop>
+<stop offset="100%" stop-color="#1558c9" stop-opacity="0.0"></stop>
+</lineargradient>
+<filter height="200%" id="limePointGlow" width="200%" x="-50%" y="-50%">
+<fedropshadow dx="0" dy="0" flood-color="#D4FF24" flood-opacity="0.7" stddeviation="4"></fedropshadow>
+</filter>
+<filter height="200%" id="activePointGlow" width="200%" x="-50%" y="-50%">
+<fedropshadow dx="0" dy="0" flood-color="#1558c9" flood-opacity="0.9" stddeviation="5"></fedropshadow>
+</filter>
+</defs>
+<!-- Layer 1 (Depth: translateZ(-10px)): Shaded Area Fill -->
+<g class="trend-layer-back">
+<polygon class="transition-all duration-700 ease-out" fill="url(#cobaltFillGrad)" id="svg-chart-area" points="190,200 190,135 570,75 570,200"></polygon>
+</g>
+<!-- Layer 2 (Depth: translateZ(0px)): 4 Horizontal Gridlines & Y-Axis Labels -->
+<g class="trend-layer-grid">
+<!-- Grid line 1 (Top) -->
+<line stroke="#23262D" stroke-dasharray="3,3" stroke-width="1" x1="80" x2="720" y1="40" y2="40"></line>
+<text fill="#9AA3B2" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace" font-size="12" id="y-lbl-4" text-anchor="start" x="25" y="44">₹220</text>
+<!-- Grid line 2 -->
+<line stroke="#23262D" stroke-dasharray="3,3" stroke-width="1" x1="80" x2="720" y1="95" y2="95"></line>
+<text fill="#9AA3B2" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace" font-size="12" id="y-lbl-3" text-anchor="start" x="25" y="99">₹205</text>
+<!-- Grid line 3 -->
+<line stroke="#23262D" stroke-dasharray="3,3" stroke-width="1" x1="80" x2="720" y1="150" y2="150"></line>
+<text fill="#9AA3B2" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace" font-size="12" id="y-lbl-2" text-anchor="start" x="25" y="154">₹190</text>
+<!-- Grid line 4 (Bottom) -->
+<line stroke="#23262D" stroke-dasharray="3,3" stroke-width="1" x1="80" x2="720" y1="205" y2="205"></line>
+<text fill="#9AA3B2" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace" font-size="12" id="y-lbl-1" text-anchor="start" x="25" y="209">₹175</text>
+<!-- Vertical Crosshair line: snapping in #3A4150 -->
+<line class="transition-all duration-200" id="svg-crosshair" opacity="0.9" stroke="#3A4150" stroke-dasharray="4,4" stroke-width="1.5" x1="570" x2="570" y1="30" y2="210"></line>
+</g>
+<!-- Layer 3 (Depth: translateZ(20px)): Trend Line & Points -->
+<g class="trend-layer-line">
+<!-- Connecting Line: Electric Cobalt #1558C9, 3px stroke -->
+<polyline class="chart-line-anim transition-all duration-700 ease-out" fill="none" id="svg-chart-line" points="190,135 570,75" stroke="#1558C9" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"></polyline>
+<!-- Point 1: Week 41 (X: 190) -->
+<g class="point-group cursor-pointer" id="group-w41" onclick="toggleWeekSelection('W41')" onmouseenter="hoverWeek('W41')" onmouseleave="unhoverWeek()">
+<circle class="chart-pt" cx="190" cy="135" fill="#FFFFFF" id="pt-w41" r="8" stroke="#1558C9" stroke-width="2.5"></circle>
+<!-- Text label under X-axis -->
+<text fill="#9AA3B2" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace" font-size="12" text-anchor="middle" x="190" y="238">Week 41</text>
+</g>
+<!-- Point 2: Week 42 (Current/Latest, X: 570) -->
+<g class="point-group cursor-pointer" id="group-w42" onclick="toggleWeekSelection('W42')" onmouseenter="hoverWeek('W42')" onmouseleave="unhoverWeek()">
+<circle class="chart-pt chart-selected" cx="570" cy="75" fill="#D4FF24" filter="url(#limePointGlow)" id="pt-w42" r="12" stroke="#FFFFFF" stroke-width="2.5"></circle>
+<!-- "Latest" Pill/Badge -->
+<rect fill="#D4FF24" height="20" opacity="0.95" rx="4" width="48" x="546" y="38"></rect>
+<text fill="#171E00" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace" font-size="10" font-weight="bold" letter-spacing="0.05em" text-anchor="middle" x="570" y="52">LATEST</text>
+<!-- Text label under X-axis -->
+<text fill="#D4FF24" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace" font-size="12" font-weight="bold" text-anchor="middle" x="570" y="238">Week 42</text>
+</g>
+</g>
+</svg>
+<!-- Layer 4: Interactive Floating Tooltip (translateZ(30px)) -->
+<div class="absolute pointer-events-none transition-all duration-200 z-30 bg-[#0E0E0E]/95 border border-[#1558C9]/60 backdrop-blur-md px-3.5 py-2.5 rounded-lg shadow-[0_8px_20px_rgba(0,0,0,0.6)] text-[#FFFFFF]" id="chart-floating-tooltip" style="left: 75%; top: 22%; transform: translate(-50%, -100%) translateZ(30px);">
+<div class="flex items-center justify-between gap-3 font-semibold pb-1 border-b border-[#23262D]">
+<span class="text-[#FFFFFF] text-[13px] font-semibold" id="tip-week-lbl">Week 42</span>
+<span class="font-mono text-[#D4FF24] text-[14px] font-bold" id="tip-metric-badge">₹212/hr</span>
+</div>
+<div class="mt-1 text-[#9AA3B2] space-y-0.5">
+<div class="text-[13px]">After fuel: <strong class="text-[#FFFFFF] font-mono" id="tip-afterfuel">₹18,000</strong> · Hours: <strong class="text-[#FFFFFF] font-mono" id="tip-hours">85.0h</strong></div>
+<div class="font-mono text-[13px] text-[#9AA3B2] pt-0.5" id="tip-arithmetic">₹18,000 ÷ 85.0 hrs = ₹212/hr</div>
+</div>
+</div>
+</div>
+<!-- Muted Note below Chart -->
+<div class="flex items-center justify-between pt-1 border-t border-[#23262D]/60 text-[#6B7280] text-[12px]">
+<span>Week 41 is sample data for demonstration.</span>
+<span class="hidden sm:inline">Use Arrow keys to inspect · Enter to select · Esc to clear</span>
+</div>
+</div>
+</div>
+<!-- Summary sentence below chart -->
+<div class="p-3.5 rounded-lg bg-[#121316] border border-[#23262D] flex items-center gap-3" id="trend-summary-box">
+<span class="material-symbols-outlined text-[#D4FF24] text-[20px]">trending_up</span>
+<p class="text-[15px] font-medium leading-[1.6] text-[#FFFFFF]" id="trend-summary-text">
+  This week you earned <span class="text-[#D4FF24] font-bold">₹26/hr more</span> than last week. After fuel, that's <span class="text-[#D4FF24] font-bold">₹2,800 more</span>.
+</p>
+</div>
+<!-- Accessible Fallback Trend Table -->
+<div class="w-full overflow-x-auto rounded-lg border border-[#23262D] bg-[#0E0E0E]">
+<table class="w-full text-left min-w-[620px]" id="fallback-trend-table">
+<thead>
+<tr class="bg-[#121316] border-b border-[#23262D] text-[#9AA3B2] text-[11px] font-semibold uppercase tracking-[0.06em]">
+<th class="py-3 px-4">Cycle</th>
+<th class="py-3 px-4 text-right">Gross</th>
+<th class="py-3 px-4 text-right">Net (After Fuel)</th>
+<th class="py-3 px-4 text-right">Hours</th>
+<th class="py-3 px-4 text-right text-[#D4FF24]">Real Rate</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-[#23262D]/60">
+<tr class="text-[#FFFFFF] hover:bg-[#131313] transition-colors cursor-pointer border-l-2 border-l-transparent" id="trend-row-W41" onclick="toggleWeekSelection('W41')">
+<td class="py-3 px-4 text-[#9AA3B2] text-[14px] font-medium">
+<div class="flex items-center gap-2">
+<span class="w-1.5 h-1.5 rounded-full bg-[#6B7280]"></span>
+<span>Week 41 (Demo Sample)</span>
+</div>
+</td>
+<td class="py-3 px-4 text-right font-mono-numbers text-[15px] font-semibold text-[#FFFFFF]">₹21,100</td>
+<td class="py-3 px-4 text-right font-mono-numbers text-[15px] font-semibold text-[#FFFFFF]">₹15,200</td>
+<td class="py-3 px-4 text-right font-mono-numbers text-[15px] font-semibold text-[#FFFFFF]">82.0h</td>
+<td class="py-3 px-4 text-right font-mono-numbers text-[15px] font-semibold text-[#FFFFFF]">₹186/hr</td>
+</tr>
+<tr class="bg-[#1558C9]/10 text-[#FFFFFF] font-bold transition-colors cursor-pointer border-l-2 border-l-[#1558C9]" id="trend-row-W42" onclick="toggleWeekSelection('W42')">
+<td class="py-3 px-4 text-[#FFFFFF] text-[14px] font-medium">
+<div class="flex items-center gap-2">
+<span class="w-1.5 h-1.5 rounded-full bg-[#D4FF24]"></span>
+<span>Week 42 (Current)</span>
+</div>
+</td>
+<td class="py-3 px-4 text-right font-mono-numbers text-[15px] font-semibold text-[#FFFFFF]">₹22,000</td>
+<td class="py-3 px-4 text-right font-mono-numbers text-[15px] font-bold text-[#D4FF24]">₹18,000</td>
+<td class="py-3 px-4 text-right font-mono-numbers text-[15px] font-semibold text-[#FFFFFF]">85.0h</td>
+<td class="py-3 px-4 text-right font-mono-numbers text-[15px] font-bold text-[#D4FF24]">₹212/hr</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<!-- 5. Section: Monthly income summary (Printable Document Card) -->
+<section class="w-full px-margin pt-space-xl">
+<div class="max-w-7xl mx-auto flex flex-col gap-space-md">
+<div class="flex items-center justify-between">
+<div>
+<span class="text-[12px] font-semibold uppercase text-[#9AA3B2] tracking-[0.08em]">Summary report</span>
+<h2 class="text-[24px] font-bold text-[#FFFFFF] tracking-[-0.01em] leading-[1.2]">Monthly income summary</h2>
+</div>
+<button class="print-hide btn-interactive px-4 py-2 rounded bg-surface-container-high text-[#FFFFFF] border border-[#23262D] hover:border-[#1558C9] text-[14px] font-semibold tracking-[0.01em] uppercase flex items-center gap-2 transition-all shadow-md" onclick="window.print()">
+<span class="material-symbols-outlined text-[16px]">print</span>
+<span>Print / Save as PDF</span>
+</button>
+</div>
+<!-- Document Sheet Card -->
+<div class="w-full bg-[#121316] border border-[#23262D] rounded-xl p-space-md lg:p-space-xl shadow-xl flex flex-col gap-space-lg" id="printable-monthly-statement">
+<!-- Document Header -->
+<div class="flex flex-col md:flex-row justify-between items-start md:items-center pb-space-md border-b border-[#23262D] gap-space-sm">
+<div>
+<div class="flex items-center gap-2">
+<span class="text-[20px] font-bold text-[#FFFFFF] tracking-tight">Payout<span class="text-[#1558C9]">Lens</span></span>
+<span class="px-2 py-0.5 rounded bg-[#18191E] border border-[#23262D] text-[#9AA3B2] text-[11px] font-semibold tracking-[0.06em] uppercase">LOCAL SUMMARY</span>
+</div>
+<p class="text-[14px] font-normal text-[#9AA3B2] mt-0.5">Calculated in your browser from imported payout entries</p>
+</div>
+<div class="text-left md:text-right text-[12px] font-normal text-[#9AA3B2] space-y-0.5">
+<div><strong class="text-[#FFFFFF] font-medium">STATEMENT PERIOD:</strong> November 2026 (MTD W42)</div>
+<div><strong class="text-[#FFFFFF] font-medium">PLATFORMS:</strong> Swiggy, Zomato, Blinkit</div>
+<div><strong class="text-[#FFFFFF] font-medium">GENERATED:</strong> 15 Nov 2026 23:59 IST</div>
+</div>
+</div>
+<!-- Two-Column Ledger Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-space-lg">
+<!-- Left Column: Receipts & Deductions -->
+<div class="flex flex-col gap-space-sm">
+<span class="text-[11px] font-semibold uppercase tracking-[0.06em] text-[#9AA3B2] border-b border-[#23262D] pb-1.5">
+  INCOME ACCOUNTING
+</span>
+<div class="flex justify-between items-center py-1.5 text-[15px] font-normal leading-[1.6]">
+<span class="text-[#9AA3B2]">Gross Platform Earnings</span>
+<span class="font-mono-numbers text-[15px] font-semibold text-[#FFFFFF]">₹22,000.00</span>
+</div>
+<div class="flex justify-between items-center py-1.5 text-[15px] font-normal leading-[1.6] text-[#9AA3B2]">
+<span>Platform Commission (Aggregated)</span>
+<span class="font-mono-numbers text-[15px] font-semibold text-[#FFFFFF]">- ₹2,000.00</span>
+</div>
+<div class="flex justify-between items-center py-1.5 text-[15px] font-normal leading-[1.6] text-[#9AA3B2]">
+<span>Penalties with No Matched Orders</span>
+<span class="font-mono-numbers text-[15px] font-semibold text-[#F87171]">- ₹400.00</span>
+</div>
+<div class="flex justify-between items-center py-1.5 text-[15px] font-normal leading-[1.6] text-[#9AA3B2]">
+<span>Estimated Fuel Expenditure</span>
+<span class="font-mono-numbers text-[15px] font-semibold text-[#FFFFFF]">- ₹1,600.00</span>
+</div>
+<div class="flex justify-between items-center pt-3 border-t border-[#23262D]">
+<span class="text-[16px] font-semibold text-[#FFFFFF] leading-[1.4]">Net Take-Home Yield</span>
+<span class="font-mono-numbers text-[20px] font-bold text-[#D4FF24]">₹18,000.00</span>
+</div>
+</div>
+<!-- Right Column: Operational Metrics & Time -->
+<div class="flex flex-col gap-space-sm">
+<span class="text-[11px] font-semibold uppercase tracking-[0.06em] text-[#9AA3B2] border-b border-[#23262D] pb-1.5">
+  EFFORT BREAKDOWN
+</span>
+<div class="flex justify-between items-center py-1.5 text-[15px] font-normal leading-[1.6]">
+<span class="text-[#9AA3B2]">Active Delivery Shifts</span>
+<span class="font-mono-numbers text-[15px] font-semibold text-[#FFFFFF]">7 shifts</span>
+</div>
+<div class="flex justify-between items-center py-1.5 text-[15px] font-normal leading-[1.6]">
+<span class="text-[#9AA3B2]">Total Logged App Hours</span>
+<span class="font-mono-numbers text-[15px] font-semibold text-[#FFFFFF]">85.0 hrs</span>
+</div>
+<div class="flex justify-between items-center py-1.5 text-[15px] font-normal leading-[1.6]">
+<span class="text-[#9AA3B2]">Nominal Gross Hourly Rate</span>
+<span class="font-mono-numbers text-[15px] font-semibold text-[#FFFFFF]">₹258.82 / hr</span>
+</div>
+<div class="flex justify-between items-center py-1.5 text-[15px] font-normal leading-[1.6]">
+<span class="text-[#9AA3B2]">Expense Drag Ratio</span>
+<span class="font-mono-numbers text-[15px] font-semibold text-[#FFFFFF]">18.18% of gross</span>
+</div>
+<div class="flex justify-between items-center pt-3 border-t border-[#23262D]">
+<span class="text-[16px] font-semibold text-[#FFFFFF] leading-[1.4]">Effective Net Rate</span>
+<span class="font-mono-numbers text-[20px] font-bold text-[#D4FF24]">₹212.00 / hr</span>
+</div>
+</div>
+</div>
+<!-- Document Footer Callout -->
+<div class="p-3 bg-surface-container rounded border border-[#23262D] flex flex-col md:flex-row items-start md:items-center justify-between gap-2 text-[#9AA3B2] text-[12px] font-normal">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[#D4FF24] text-[16px]">check_circle</span>
+<span>Processed via client-side regex rules. Zero server uploads.</span>
+</div>
+<span class="font-mono text-[11px] text-[#6B7280]">LOCAL HASH: 8f2b-91c0-42ae-truth</span>
+</div>
+</div>
+</div>
+</section>
+<!-- 6. Section: Why PayoutLens is different (Comparison Matrix) -->
+<section class="w-full px-margin pt-space-xl pb-space-xl">
+<div class="max-w-7xl mx-auto flex flex-col gap-space-md">
+<div>
+<span class="text-[12px] font-semibold uppercase text-[#9AA3B2] tracking-[0.08em]">Built for India</span>
+<h2 class="text-[24px] font-bold text-[#FFFFFF] tracking-[-0.01em] leading-[1.2]">Why PayoutLens is different</h2>
+<p class="text-[15px] font-normal leading-[1.6] text-[#9AA3B2]">Engineered specifically for Indian quick-commerce realities versus overseas trackers.</p>
+</div>
+<div class="w-full overflow-x-auto rounded-xl border border-[#23262D] bg-[#0E0E0E]">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-[#121316] border-b border-[#23262D] text-[#9AA3B2] text-[11px] font-semibold uppercase tracking-[0.06em]">
+<th class="py-4 px-4 w-1/4">Feature / Capability</th>
+<th class="py-4 px-4 w-5/12 bg-primary/5 text-[#FFFFFF] border-x border-[#23262D]">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-[#D4FF24]"></span>
+<span>PayoutLens (India Gig Truth)</span>
+</div>
+</th>
+<th class="py-4 px-4 w-1/3 text-[#9AA3B2]">US Gig Trackers (Gridwise, ShiftTracker)</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-[#23262D] text-[15px] font-normal leading-[1.6]">
+<tr class="hover:bg-[#131313] transition-colors">
+<td class="py-3.5 px-4 font-semibold text-[#FFFFFF]">Platforms Supported</td>
+<td class="py-3.5 px-4 bg-primary/5 border-x border-[#23262D] text-[#FFFFFF]">
+<strong class="font-semibold text-[#FFFFFF]">Swiggy, Zomato, Blinkit</strong> SMS, push notifications &amp; payout sheets.
+</td>
+<td class="py-3.5 px-4 text-[#9AA3B2]">DoorDash, Uber Eats, Lyft, Instacart exclusively.</td>
+</tr>
+<tr class="hover:bg-[#131313] transition-colors">
+<td class="py-3.5 px-4 font-semibold text-[#FFFFFF]">Data Model</td>
+<td class="py-3.5 px-4 bg-primary/5 border-x border-[#23262D] text-[#FFFFFF]">
+<span class="font-semibold text-[#FFFFFF]">100% in-browser.</span> Zero server uploads. Local client-side parsing.
+</td>
+<td class="py-3.5 px-4 text-[#9AA3B2]">Cloud account linking (Plaid-style) and third-party scraping.</td>
+</tr>
+<tr class="hover:bg-[#131313] transition-colors">
+<td class="py-3.5 px-4 font-semibold text-[#FFFFFF]">Deductions Handling</td>
+<td class="py-3.5 px-4 bg-primary/5 border-x border-[#23262D] text-[#FFFFFF]">
+  Granular fuel cost estimations, commission splits, and <strong class="font-semibold text-[#FFFFFF]">unmatched penalty review questions</strong>.
+</td>
+<td class="py-3.5 px-4 text-[#9AA3B2]">Standard IRS baseline mileage deduction only.</td>
+</tr>
+<tr class="hover:bg-[#131313] transition-colors">
+<td class="py-3.5 px-4 font-semibold text-[#FFFFFF]">Currency &amp; Context</td>
+<td class="py-3.5 px-4 bg-primary/5 border-x border-[#23262D] text-[#FFFFFF]">
+  Native <strong class="font-semibold text-[#FFFFFF]">Indian Rupee (₹)</strong>, local petrol rates, shift structures.
+</td>
+<td class="py-3.5 px-4 text-[#9AA3B2]">USD ($) only, US tax year structures.</td>
+</tr>
+<tr class="hover:bg-[#131313] transition-colors">
+<td class="py-3.5 px-4 font-semibold text-[#FFFFFF]">Privacy</td>
+<td class="py-3.5 px-4 bg-primary/5 border-x border-[#23262D] text-[#FFFFFF]">
+<span class="font-semibold text-[#FFFFFF]">No login required.</span> Zero user identity saved or shared.
+</td>
+<td class="py-3.5 px-4 text-[#9AA3B2]">Account requirements, GPS tracking, and third-party analytics.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p class="text-[12px] font-normal text-[#6B7280] italic">
+  * Based on public product descriptions as of Q4 2026.
+</p>
+</div>
+</section>
+</div>
+<script>
+    // 1. Copy Prompt Feedback with Lime Confirmation
+    function copyPrompt(btn, text) {
+      if (!btn) return;
+      navigator.clipboard.writeText(text).then(function() {
+        const originalHtml = btn.innerHTML;
+        btn.innerHTML = '<span class="material-symbols-outlined text-[14px] text-[#D4FF24]">check_circle</span><span class="text-[#D4FF24] font-bold">Copied</span>';
+        btn.classList.add('border-[#D4FF24]/60', 'bg-[#D4FF24]/10');
+        setTimeout(function() {
+          btn.innerHTML = originalHtml;
+          btn.classList.remove('border-[#D4FF24]/60', 'bg-[#D4FF24]/10');
+        }, 1500);
+      }).catch(function() {
+        btn.innerHTML = '<span class="material-symbols-outlined text-[14px] text-[#D4FF24]">check_circle</span><span class="text-[#D4FF24] font-bold">Copied</span>';
+        setTimeout(() => { btn.textContent = 'Copy question'; }, 1500);
+      });
+    }
+
+    // 2. Expandable Table Rows & Dimming Selection
+    let currentSelectedTableRow = null;
+
+    function selectTableRow(rowElem, toggleExpand = true) {
+      const allRows = document.querySelectorAll('.table-data-row');
+      
+      if (currentSelectedTableRow === rowElem) {
+        // Toggle behavior: clearing selection
+        currentSelectedTableRow = null;
+        allRows.forEach(r => r.classList.remove('row-dimmed'));
+        if (toggleExpand) {
+          collapseDrawer(rowElem);
+        }
+        return;
+      }
+
+      currentSelectedTableRow = rowElem;
+      allRows.forEach(r => {
+        if (r === rowElem) {
+          r.classList.remove('row-dimmed');
+        } else {
+          r.classList.add('row-dimmed');
+          collapseDrawer(r);
+        }
+      });
+
+      if (toggleExpand) {
+        expandDrawer(rowElem);
+      }
+    }
+
+    function expandDrawer(rowElem) {
+      const rowId = rowElem.getAttribute('data-row-id');
+      const innerDrawer = document.getElementById('drawer-inner-' + rowId);
+      if (!innerDrawer) return;
+      rowElem.classList.add('is-expanded');
+      innerDrawer.classList.add('open');
+    }
+
+    function collapseDrawer(rowElem) {
+      const rowId = rowElem.getAttribute('data-row-id');
+      const innerDrawer = document.getElementById('drawer-inner-' + rowId);
+      if (!innerDrawer) return;
+      rowElem.classList.remove('is-expanded');
+      innerDrawer.classList.remove('open');
+    }
+
+    document.querySelectorAll('.table-data-row').forEach(row => {
+      row.addEventListener('click', () => selectTableRow(row, true));
+      row.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          selectTableRow(row, true);
+        } else if (e.key === 'Escape') {
+          e.preventDefault();
+          collapseDrawer(row);
+          if (currentSelectedTableRow === row) {
+            currentSelectedTableRow = null;
+            document.querySelectorAll('.table-data-row').forEach(r => r.classList.remove('row-dimmed'));
+          }
+        }
+      });
+    });
+
+    // 3. Search and Platform/Slot Filtering
+    const searchInput = document.getElementById('ledger-search');
+    const platformSelect = document.getElementById('platform-filter');
+    const slotSelect = document.getElementById('slot-filter');
+    const tbody = document.getElementById('table-body');
+
+    function applyFilters() {
+      const query = (searchInput ? searchInput.value : '').toLowerCase().trim();
+      const platform = (platformSelect ? platformSelect.value : 'ALL');
+      const slot = (slotSelect ? slotSelect.value : 'ALL');
+      const rows = tbody.querySelectorAll('.table-data-row');
+
+      rows.forEach(function(row) {
+        const rowId = row.getAttribute('data-row-id');
+        const drawer = document.getElementById('drawer-' + rowId);
+        const rowText = row.textContent.toLowerCase();
+        const rowPlatform = row.getAttribute('data-platform') || '';
+        const rowSlot = row.getAttribute('data-slot') || '';
+
+        const matchesQuery = query === '' || rowText.includes(query);
+        const matchesPlatform = platform === 'ALL' || rowPlatform.toLowerCase() === platform.toLowerCase();
+        const matchesSlot = slot === 'ALL' || rowSlot.toLowerCase() === slot.toLowerCase();
+
+        if (matchesQuery && matchesPlatform && matchesSlot) {
+          row.style.display = '';
+          if (drawer) drawer.style.display = '';
+        } else {
+          row.style.display = 'none';
+          if (drawer) drawer.style.display = 'none';
+          collapseDrawer(row);
+        }
+      });
+    }
+
+    if (searchInput) searchInput.addEventListener('input', applyFilters);
+    if (platformSelect) platformSelect.addEventListener('change', applyFilters);
+    if (slotSelect) slotSelect.addEventListener('change', applyFilters);
+
+    // 4. Interactive 3D Chart Logic
+    const chartData = {
+      W41: { week: 'Week 41', rate: 186, afterfuel: 15200, hours: 82, gross: 21100, x: 190, yRate: 135, yFuel: 145 },
+      W42: { week: 'Week 42', rate: 212, afterfuel: 18000, hours: 85, gross: 22000, x: 570, yRate: 75,  yFuel: 70 }
+    };
+
+    let activeMetric = 'rate'; // 'rate' | 'afterfuel'
+    let selectedChartWeek = 'W42'; // default selected
+
+    const trendBox = document.getElementById('trend-3d-box');
+    const glowLayer = document.getElementById('chart-glow-layer');
+    const crosshair = document.getElementById('svg-crosshair');
+    const floatingTooltip = document.getElementById('chart-floating-tooltip');
+    const chartLine = document.getElementById('svg-chart-line');
+    const chartArea = document.getElementById('svg-chart-area');
+    const ptW41 = document.getElementById('pt-w41');
+    const ptW42 = document.getElementById('pt-w42');
+
+    // 3D Tilt on pointer move (disabled on touch devices)
+    if (window.matchMedia('(hover: hover) and (pointer: fine)').matches && trendBox) {
+      trendBox.addEventListener('mousemove', (e) => {
+        const rect = trendBox.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const cx = rect.width / 2;
+        const cy = rect.height / 2;
+
+        const tiltX = ((y - cy) / cy) * -6;
+        const tiltY = ((x - cx) / cx) * 6;
+
+        trendBox.style.setProperty('--mx', x + 'px');
+        trendBox.style.setProperty('--my', y + 'px');
+        trendBox.style.transform = `rotateX(${tiltX.toFixed(2)}deg) rotateY(${tiltY.toFixed(2)}deg)`;
+        if (glowLayer) glowLayer.style.opacity = '1';
+      });
+
+      trendBox.addEventListener('mouseleave', () => {
+        trendBox.style.transform = 'rotateX(0deg) rotateY(0deg)';
+        if (glowLayer) glowLayer.style.opacity = '0';
+      });
+    }
+
+    function setChartMetric(metric) {
+      activeMetric = metric;
+      const btnRate = document.getElementById('btn-toggle-rate');
+      const btnFuel = document.getElementById('btn-toggle-afterfuel');
+
+      if (metric === 'rate') {
+        btnRate.classList.add('bg-[#1558C9]', 'text-[#FFFFFF]', 'shadow');
+        btnRate.classList.remove('text-[#9AA3B2]');
+        btnFuel.classList.remove('bg-[#1558C9]', 'text-[#FFFFFF]', 'shadow');
+        btnFuel.classList.add('text-[#9AA3B2]');
+
+        document.getElementById('y-lbl-4').textContent = '₹220';
+        document.getElementById('y-lbl-3').textContent = '₹205';
+        document.getElementById('y-lbl-2').textContent = '₹190';
+        document.getElementById('y-lbl-1').textContent = '₹175';
+
+        chartLine.setAttribute('points', '190,135 570,75');
+        chartArea.setAttribute('points', '190,205 190,135 570,75 570,205');
+        ptW41.setAttribute('cy', '135');
+        ptW42.setAttribute('cy', '75');
+      } else {
+        btnFuel.classList.add('bg-[#1558C9]', 'text-[#FFFFFF]', 'shadow');
+        btnFuel.classList.remove('text-[#9AA3B2]');
+        btnRate.classList.remove('bg-[#1558C9]', 'text-[#FFFFFF]', 'shadow');
+        btnRate.classList.add('text-[#9AA3B2]');
+
+        document.getElementById('y-lbl-4').textContent = '₹20,000';
+        document.getElementById('y-lbl-3').textContent = '₹17,000';
+        document.getElementById('y-lbl-2').textContent = '₹14,000';
+        document.getElementById('y-lbl-1').textContent = '₹11,000';
+
+        chartLine.setAttribute('points', '190,145 570,70');
+        chartArea.setAttribute('points', '190,205 190,145 570,70 570,205');
+        ptW41.setAttribute('cy', '145');
+        ptW42.setAttribute('cy', '70');
+      }
+
+      if (selectedChartWeek) {
+        updateTooltip(selectedChartWeek);
+      }
+    }
+
+    function updateTooltip(wk) {
+      const d = chartData[wk];
+      if (!d) return;
+
+      document.getElementById('tip-week-lbl').textContent = d.week;
+      document.getElementById('tip-metric-badge').textContent = (activeMetric === 'rate') ? `₹${d.rate}/hr` : `₹${d.afterfuel.toLocaleString('en-IN')}`;
+      document.getElementById('tip-afterfuel').textContent = `₹${d.afterfuel.toLocaleString('en-IN')}`;
+      document.getElementById('tip-hours').textContent = `${d.hours.toFixed(1)}h`;
+      document.getElementById('tip-arithmetic').textContent = `₹${d.afterfuel.toLocaleString('en-IN')} ÷ ${d.hours.toFixed(1)} hrs = ₹${d.rate}/hr`;
+
+      if (wk === 'W41') {
+        floatingTooltip.style.left = '25%';
+        floatingTooltip.style.top = activeMetric === 'rate' ? '46%' : '50%';
+        crosshair.setAttribute('x1', '190');
+        crosshair.setAttribute('x2', '190');
+      } else {
+        floatingTooltip.style.left = '75%';
+        floatingTooltip.style.top = activeMetric === 'rate' ? '22%' : '20%';
+        crosshair.setAttribute('x1', '570');
+        crosshair.setAttribute('x2', '570');
+      }
+      floatingTooltip.style.opacity = '1';
+    }
+
+    function toggleWeekSelection(wk) {
+      if (selectedChartWeek === wk) {
+        // Clear selection
+        selectedChartWeek = null;
+        ptW41.classList.remove('chart-selected', 'chart-dimmed');
+        ptW42.classList.remove('chart-selected', 'chart-dimmed');
+        document.getElementById('trend-row-W41').classList.remove('border-l-[#1558C9]', 'bg-[#1558C9]/10');
+        document.getElementById('trend-row-W42').classList.remove('border-l-[#1558C9]', 'bg-[#1558C9]/10');
+        return;
+      }
+
+      selectedChartWeek = wk;
+      if (wk === 'W41') {
+        ptW41.classList.add('chart-selected');
+        ptW41.classList.remove('chart-dimmed');
+        ptW42.classList.add('chart-dimmed');
+        ptW42.classList.remove('chart-selected');
+
+        document.getElementById('trend-row-W41').classList.add('border-l-[#1558C9]', 'bg-[#1558C9]/10');
+        document.getElementById('trend-row-W42').classList.remove('border-l-[#1558C9]', 'bg-[#1558C9]/10');
+
+        document.getElementById('trend-summary-text').innerHTML = `Week 41 baseline: Generated <span class="font-mono-numbers text-[#FFFFFF] font-bold">₹15,200 net</span> over 82 hours at <span class="font-mono-numbers text-[#FFFFFF] font-bold">₹186/hr</span>.`;
+      } else {
+        ptW42.classList.add('chart-selected');
+        ptW42.classList.remove('chart-dimmed');
+        ptW41.classList.add('chart-dimmed');
+        ptW41.classList.remove('chart-selected');
+
+        document.getElementById('trend-row-W42').classList.add('border-l-[#1558C9]', 'bg-[#1558C9]/10');
+        document.getElementById('trend-row-W41').classList.remove('border-l-[#1558C9]', 'bg-[#1558C9]/10');
+
+        document.getElementById('trend-summary-text').innerHTML = `This week you earned <span class="text-[#D4FF24] font-bold">₹26/hr more</span> than last week. After fuel, that's <span class="text-[#D4FF24] font-bold">₹2,800 more</span>.`;
+      }
+
+      updateTooltip(wk);
+    }
+
+    function hoverWeek(wk) {
+      updateTooltip(wk);
+    }
+
+    function unhoverWeek() {
+      if (selectedChartWeek) {
+        updateTooltip(selectedChartWeek);
+      }
+    }
+
+    function handleChartKeydown(e) {
+      if (e.key === 'ArrowLeft') {
+        toggleWeekSelection('W41');
+      } else if (e.key === 'ArrowRight') {
+        toggleWeekSelection('W42');
+      } else if (e.key === 'Enter') {
+        if (!selectedChartWeek) toggleWeekSelection('W42');
+      } else if (e.key === 'Escape') {
+        selectedChartWeek = null;
+        ptW41.classList.remove('chart-selected', 'chart-dimmed');
+        ptW42.classList.remove('chart-selected', 'chart-dimmed');
+        document.getElementById('trend-row-W41').classList.remove('border-l-[#1558C9]', 'bg-[#1558C9]/10');
+        document.getElementById('trend-row-W42').classList.remove('border-l-[#1558C9]', 'bg-[#1558C9]/10');
+      }
+    }
+
+    // Initialize chart
+    toggleWeekSelection('W42');
+
+    // 5. Cursor radial light on needs review cards
+    if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+      document.querySelectorAll('.review-card').forEach(function(card) {
+        card.addEventListener('mousemove', function(e) {
+          const rect = card.getBoundingClientRect();
+          const x = e.clientX - rect.left;
+          const y = e.clientY - rect.top;
+          card.style.setProperty('--mouse-x', x + 'px');
+          card.style.setProperty('--mouse-y', y + 'px');
+        });
+      });
+    }
+</script>
+</main>
+<!-- Unified Shared Footer -->
+<footer class="w-full bg-[#0A0A0A] border-t border-[#23262D]">
+<!-- Top banner -->
+<div class="w-full relative overflow-hidden bg-[#131313] py-10 px-margin" style="background: linear-gradient(180deg, rgba(21,88,201,0.15) 0%, rgba(10,10,10,0.15) 100%), #131313;">
+<div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6 text-center md:text-left">
+<h2 class="text-[28px] font-bold text-[#FFFFFF] tracking-[-0.01em]">
+  Know what your hour is really worth.
+</h2>
+<a class="btn-interactive inline-flex items-center gap-2 px-5 py-2.5 bg-[#D4FF24] text-[#171E00] text-[14px] font-semibold tracking-[0.01em] uppercase rounded font-bold" data-path="add-payouts" href="add-payouts.html">
+<span>Try the demo</span>
+<span>→</span>
+</a>
+</div>
+</div>
+<!-- Thin 1px Acid Lime rule at 40% opacity -->
+<div class="w-full border-t border-[#D4FF24]/40"></div>
+<!-- Main footer on #0A0A0A, 3 columns on desktop, 1 on mobile -->
+<div class="w-full px-margin py-12 max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-10">
+<!-- Col 1: Logo & summary -->
+<div class="flex flex-col gap-2">
+<a class="flex flex-col w-fit group" data-path="overview" href="overview.html">
+<span class="text-[20px] text-[#FFFFFF] font-bold tracking-tight">Payout<span class="text-[#1558C9]">Lens</span></span>
+<span class="text-[10px] text-[#9AA3B2] uppercase tracking-[0.08em] font-semibold">GIG FINANCIAL TRUTH</span>
+</a>
+<p class="text-[15px] font-normal leading-[1.6] text-[#9AA3B2] mt-2">
+  No login · No upload · Runs in your browser.
+</p>
+</div>
+<!-- Col 2: Navigation links -->
+<div class="flex flex-col gap-3">
+<span class="text-[11px] font-semibold text-[#9AA3B2] uppercase tracking-[0.06em]">Navigation</span>
+<div class="flex flex-col gap-2 text-[14px] font-medium leading-[1.4]">
+<a class="text-[#9AA3B2] hover:text-[#1558C9] transition-colors" data-path="overview" href="overview.html">Overview</a>
+<a class="text-[#9AA3B2] hover:text-[#1558C9] transition-colors" data-path="add-payouts" href="add-payouts.html">Add payouts</a>
+<a class="text-[#9AA3B2] hover:text-[#1558C9] transition-colors" data-path="dashboard" href="dashboard.html">Dashboard</a>
+<a class="text-[#9AA3B2] hover:text-[#1558C9] transition-colors" data-path="details" href="details.html">Details</a>
+<a class="text-[#9AA3B2] hover:text-[#1558C9] transition-colors" data-path="how-it-works" href="overview.html">How it works</a>
+</div>
+</div>
+<!-- Col 3: Tested with -->
+<div class="flex flex-col gap-3">
+<span class="text-[11px] font-semibold text-[#9AA3B2] uppercase tracking-[0.06em]">Tested with</span>
+<div class="flex flex-wrap gap-2">
+<span class="px-2.5 py-1 rounded bg-[#18191E] border border-[#23262D] text-[#FFFFFF] text-[12px] font-medium">Swiggy</span>
+<span class="px-2.5 py-1 rounded bg-[#18191E] border border-[#23262D] text-[#FFFFFF] text-[12px] font-medium">Zomato</span>
+<span class="px-2.5 py-1 rounded bg-[#18191E] border border-[#23262D] text-[#FFFFFF] text-[12px] font-medium">Blinkit</span>
+</div>
+<p class="text-[12px] font-normal text-[#6B7280] mt-2">
+  Sample payout messages only.
+</p>
+</div>
+</div>
+<!-- Bottom bar -->
+<div class="w-full border-t border-[#23262D] py-4 px-margin text-center">
+<p class="text-[12px] font-normal text-[#6B7280]">
+  © 2026 PayoutLens · Hackathon prototype · Figures are estimates, not tax or financial advice.
+</p>
+</div>
+</footer>
+</body></html>
