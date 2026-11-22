@@ -51,11 +51,14 @@ Gig-earnings trackers already exist, mostly for US platforms such as Uber, Lyft,
 
 ## How to run
 
+**Live demo:** https://husnabegum02.github.io/PayoutLens/
+
+**Or run locally:**
 1. Download or clone this repository.
-2. Open **`index.html`** in Chrome, Edge, or Firefox.
+2. Open `index.html` in Chrome, Edge, or Firefox.
 3. Click **Try the demo**, then **Load sample SMS**, then **Analyse**.
 
-No installation or server is needed. An internet connection is needed to load fonts and images. Nothing is sent to any server.
+No installation or server is needed. An internet connection is needed to load fonts, images, and the Tailwind CSS stylesheet. If the styling looks missing on first load, refresh the page.
 
 ## Screens
 
