@@ -93,6 +93,8 @@ No installation or server is needed. An internet connection is needed to load fo
 
 HTML, CSS, and JavaScript. Tailwind CSS and Google Fonts are loaded from their CDNs.
 
-## Team
+## Team-OBSCURA
 
-HusnaBegum02 (Husna Begum)
+HusnaBegum02 (Husna Begum-TeamLead)
+ch.priyaDarsini
+G.Rishika
